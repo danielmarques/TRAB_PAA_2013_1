@@ -13,13 +13,18 @@ namespace Main
     {
         static void Main(string[] args)
         {
+            string pastainpt = Path.Combine(Environment.CurrentDirectory, @"..\..\..\Inputs");
+            var arquivos = Directory.EnumerateFiles(pastainpt,"*.in",SearchOption.AllDirectories);
 
-           ICollection<IEnumerable<int>> inputList;
+            //var path = @"D:\Downloads\TRAB-PAA-2013-1\graphs_1\graph_a1.in";
 
-           var path = @"D:\Downloads\TRAB-PAA-2013-1\graphs_1\graph_a1.in";
-           inputList = ReadInputFile(path);
-           Graph graph_test = new Graph(inputList);
-           Console.Write(graph_test);
+            foreach (var path in arquivos)
+            {
+                Graph graph_test = new Graph(ReadInputFile(path));
+                Console.Write(graph_test);
+            }
+           
+          
 
         }
 
