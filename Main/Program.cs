@@ -16,16 +16,11 @@ namespace Main
             string pastainpt = Path.Combine(Environment.CurrentDirectory, @"..\..\..\Inputs");
             var arquivos = Directory.EnumerateFiles(pastainpt,"*.in",SearchOption.AllDirectories);
 
-            //var path = @"D:\Downloads\TRAB-PAA-2013-1\graphs_1\graph_a1.in";
-
             foreach (var path in arquivos)
             {
                 Graph graph_test = new Graph(ReadInputFile(path));
                 Console.Write(graph_test);
-            }
-           
-          
-
+            }  
         }
 
         /// <summary>
@@ -39,11 +34,10 @@ namespace Main
         ///     Retorna uma lista de arrays de inteiros. O primeiro elemento da lista possui um único elememnto (número de vértices do grafo) e os demais possúem 3 elementos (dois vértices e o pedo da aresta)
         /// </returns>
         private static ICollection<IEnumerable<int>> ReadInputFile(string path)
-
         {
             //Inicializa o leitor de arquivos.
             StreamReader sr = new StreamReader(path);
-
+            
             //Inicializa a lista genérica que será retornada. Cada posição da lista pode conter um ou mais ítens do tipo inteiro.
             List<IEnumerable<int>> imputList = new List<IEnumerable<int>>();
 

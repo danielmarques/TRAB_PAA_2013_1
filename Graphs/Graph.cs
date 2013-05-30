@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Sorting;
 namespace Graphs
 {     
 
     public class Graph
     {
+        #region Structs
         /// <summary>
         /// Estrutura de dados que representará um vértice na lista de adjacências do grafo. 
         /// Cada vértice posicionado na adjacência de outro tem um identificador (key) e um peso (weight).
@@ -24,7 +25,9 @@ namespace Graphs
                 this.key = key;
                 this.weight = weight;
             }
-        }      
+        }
+
+        #endregion
 
         #region Properties
 
@@ -132,7 +135,9 @@ namespace Graphs
                 var adj = new List<Vertex>();
                 adj.Add(v);
                 adjacencyLists.Add(fromVertex, adj);
-            }       
+            }
+       
+            
         }
 
         #endregion
