@@ -28,8 +28,10 @@ namespace Sorting
             newNode.value = value;
             newNode.priority = priority;
             heapTree.Add(newNode);
-
+                    
         }
+
+     
 
 
     }
