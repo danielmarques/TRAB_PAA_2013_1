@@ -6,21 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Graphs;
+using Sorting;
+
 
 namespace Main
 {
     public class Program
     {
+
+
         static void Main(string[] args)
         {
-            string pastainpt = Path.Combine(Environment.CurrentDirectory, @"..\..\..\Inputs");
-            var arquivos = Directory.EnumerateFiles(pastainpt,"*.in",SearchOption.AllDirectories);
 
-            foreach (var path in arquivos)
-            {
-                Graph graph_test = new Graph(ReadInputFile(path));
-                Console.Write(graph_test);
-            }  
+            //Função principal do programa
+
         }
 
         /// <summary>
@@ -54,5 +53,18 @@ namespace Main
 
             return imputList;
         }
+
+#if DEBUG
+        #region TEST EXPORT
+
+
+        public static ICollection<IEnumerable<int>> ExportedReadFile(string path)
+        {
+            return ReadInputFile(path);
+        }
+
+
+        #endregion
+#endif
     }
 }

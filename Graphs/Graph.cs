@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sorting;
+using System.Diagnostics;
 namespace Graphs
 {     
 
@@ -27,6 +28,14 @@ namespace Graphs
             }
         }
 
+        /// <summary>
+        /// Estrutura de dados que representa uma aresta do grafo (sem peso).
+        /// </summary>
+        public struct Edge
+        {
+            public int vertexFrom { get; set; }
+            public int vertexTo { get; set; }
+        }
         #endregion
 
         #region Properties
@@ -58,17 +67,6 @@ namespace Graphs
        /// A Lista de adjacências do grafo é então uma lista (Dictionary) de coleções (ICollection) de vértices (vertex).
        /// </summary>
         private Dictionary<int, ICollection<Vertex>> adjacencyLists;
-
-        /// <summary>
-        /// Lista de Arestas do grafo
-        /// </summary>
-        private ICollection<IEnumerable<int>> edgeList;
-
-        public ICollection<IEnumerable<int>> EdgeList
-        {
-            get { return edgeList ; }
-            
-        }
         
         #endregion
 
@@ -136,9 +134,28 @@ namespace Graphs
                 adj.Add(v);
                 adjacencyLists.Add(fromVertex, adj);
             }
-       
-            
+
+           
         }
+
+        /// <summary>
+        /// Retorna todas as arestas do grafo, pareadas aos seus respectivos pesos, em uma lista.
+        /// </summary>
+        /// <returns></returns>
+        public List<Tuple<int,Edge>> listGraphEdges()
+        {
+            List<Tuple<int, Edge>> listOfEdges = new List<Tuple<int, Edge>>();
+
+            //Itera por cada linha da lista de adjacências do grafo. Ou seja, a cada passada considera toda a vizinhança de um vértice do grafo.
+            foreach (var adjacenyList in adjacencyLists)
+            {
+                //Verticaliza de uma única vez todos os vizinhos do vértice, formata cada aresta com seu peso e adiciona a lista de arestas
+                listOfEdges.AddRange(adjacenyList.Value.Select(l => new Tuple<int, Edge>(item1: l.weight, item2: new Edge() { vertexFrom = adjacenyList.Key, vertexTo = l.key })));
+            }
+
+            return listOfEdges;
+            
+        }     
 
         #endregion
     }    
