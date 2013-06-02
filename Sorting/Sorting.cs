@@ -8,19 +8,28 @@ namespace Sorting
 {
     public class Sorting<TValue>
     {
-
+        #region Heap
+        /// <summary>
+        /// Ordena o vetor de entrada usando o heap sort.
+        /// </summary>
+        /// <param name="priorityQueue">Lista de elementos com suas prioridades</param>
         public static void HeapSort(ref List<Tuple<int, TValue>> priorityQueue)
         {
-
+            //Coloca o vetor na ordem heap (Max).
             Heapfy(ref priorityQueue);
 
+            //Recupera o tamanho do vetor
             int size = priorityQueue.Count;
 
+            //Sucessivamente coloca o maior elemento no final do vetor
             for (int i = size-1; i >= 0; i--)
             {
-                swapElements(ref priorityQueue, 0, i);
+                //Troca o primeiro elemento com o último
+                SwapElements(ref priorityQueue, 0, i);
+                //Diminui o tamenho do vetor
                 size--;
-                heapfyDown(ref priorityQueue, size, 0);
+                //Restaura a propriedade do heap
+                HeapfyDown(ref priorityQueue, size, 0);
             }
         }
 
@@ -37,7 +46,7 @@ namespace Sorting
             //Cria o heap em O(n)
             for (int i = (int)Math.Ceiling(heapLenght / 2.0); i >= 0; i--)
             {
-                heapfyDown(ref priorityQueue, heapLenght, i);
+                HeapfyDown(ref priorityQueue, heapLenght, i);
             }
         }
 
@@ -46,29 +55,35 @@ namespace Sorting
         /// Faz isso recusrsivamente até que o elemento esteja na posição correta no Heap Min, ou seja, sua prioridade é menor do que a dos filhos.
         /// </summary>
         /// <param name="priorityQueue">Lista de prioridades de onde o elemento faz parte</param>
+        /// <param name="heapSize">Tamanho do heap</param>
         /// <param name="elementPosition">Posição do elemento na lista de prioridades</param>
         /// <returns></returns>
-        private static void heapfyDown(ref List<Tuple<int, TValue>> priorityQueue, int listSize, int elementPosition)
+        private static void HeapfyDown(ref List<Tuple<int, TValue>> priorityQueue, int heapSize, int elementPosition)
         {
 
-
+            //Variaveis auxiliares para representar os filhos
             int leftChild = elementPosition * 2 + 1;
             int rightChild = elementPosition * 2 + 2;
+            //Variavel que será usada para guardar o maior entre elemento atual, filho da direita e filho da esquerda
             int bigger = 0;
 
-            if (leftChild < listSize && priorityQueue[leftChild].Item1 > priorityQueue[elementPosition].Item1)
+            //Verifica se o filho da esquerda é válido e se é maior do que o elemento atual
+            if (leftChild < heapSize && priorityQueue[leftChild].Item1 > priorityQueue[elementPosition].Item1)
                 bigger = leftChild;
             else
                 bigger = elementPosition;
 
-            if (rightChild < listSize && priorityQueue[rightChild].Item1 > priorityQueue[bigger].Item1)
+            //Verifica se o filho da direita é válido e se é maior do que o maior calculado no passo anterior
+            if (rightChild < heapSize && priorityQueue[rightChild].Item1 > priorityQueue[bigger].Item1)
                 bigger = rightChild;
 
-
+            //Se o elemento não é maior do que o maior dos filhos
             if (bigger != elementPosition)
             {
-                swapElements(ref priorityQueue, bigger, elementPosition);
-                heapfyDown(ref priorityQueue, listSize, bigger);
+                //Troca os elementos para manter a propriedade do heap entre eles
+                SwapElements(ref priorityQueue, bigger, elementPosition);
+                //Mantem a porpriedade do heap no nívelm ais baixo
+                HeapfyDown(ref priorityQueue, heapSize, bigger);
             }
 
 
@@ -81,7 +96,7 @@ namespace Sorting
         /// <param name="elementPosition1">Posição do primeiro elemento</param>
         /// <param name="elementPosition2">Posição do segundo elemento</param>
         /// <returns></returns>
-        private static void swapElements(ref List<Tuple<int, TValue>> priorityQueue, int elementPosition1, int elementPosition2)
+        private static void SwapElements(ref List<Tuple<int, TValue>> priorityQueue, int elementPosition1, int elementPosition2)
         {
 
             var tempElement = priorityQueue[elementPosition1];
@@ -90,5 +105,14 @@ namespace Sorting
 
         }
 
+        #endregion
+
+        #region Counting
+
+        public static void CountingSort(ref List<Tuple<int, TValue>> priorityQueue, int range)
+        {
+
+        }
+        #endregion
     }
 }
