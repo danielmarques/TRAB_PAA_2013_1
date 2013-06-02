@@ -50,12 +50,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="UnitTestKruskal.cs" />
     <Compile Include="UnitTestSorting.cs" />
     <Compile Include="UnitTestUnionFindT.cs" />
     <Compile Include="UnitTestUnionFindLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Graphs\Graphs.csproj">
+      <Project>{da3a1616-e124-401d-b052-6ce652161da9}</Project>
+      <Name>Graphs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Main\Main.csproj">
+      <Project>{c9d5ad98-2664-4542-9fac-0a0822b9b767}</Project>
+      <Name>Main</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sorting\Sorting.csproj">
       <Project>{1b0df270-02b0-4497-99e4-409a21fcc8f4}</Project>
       <Name>Sorting</Name>

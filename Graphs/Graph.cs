@@ -9,11 +9,14 @@ using UnionFind;
 namespace Graphs
 {
 
-    //enum KruskalType
-    //{
-    //    ListaCount ,
-    //    ArvoreCount
-    //}
+    //Tipos de implementação do Kruskal
+    public enum KruskalType
+    {
+        LinkedListUFHeapSort,       //UnionFind com listas encadeadas e sorting com HeapSort
+        TreeUFHeapSort,             //UnionFind com arvores e sorting com HeapSort
+        LinkedListUFCountingSort,   //UnionFind com listas encadeadas e sorting com CountingSort
+        TreeUFCountingSort          //UnionFind com arvores e sorting com CountingSort
+    }
 
     public class Graph
     {
@@ -66,16 +69,20 @@ namespace Graphs
             get { return numberOfEdges; }
             
         }
-        
 
-       /// <summary>
+        /// <summary>
+        /// Maior peso de uma aresta do grafo.
+        /// </summary>
+        private int maxWeight;
+
+        /// <summary>
        /// A lista de adjacências do grafo utiliza a classe Dictionary e a interface ICollection, ambas implementadas pelo C#.
        /// O Dictionary cria um mapeamento (Chave, Valor) e prove métodos que dão suporte à essa coleção de ítens.
        /// O ICollecion é uma interface genérica que define métodos para manipular coleções de ítens. Para implementar essa interface foi utilizada a classe List do C#.
        /// A Lista de adjacências do grafo é então uma lista (Dictionary) de coleções (ICollection) de vértices (vertex).
        /// </summary>
         private Dictionary<int, ICollection<Vertex>> adjacencyLists;
-        
+                
         #endregion
 
         #region Methods
@@ -100,7 +107,6 @@ namespace Graphs
             
             //Calcula o número de arestas do grafo
             this.numberOfEdges = inputList.Count - 1;
-
             
             //Constroi a lista de adjacências do grafo.
             //Para cada aresta do grafo, coloca a aresta na lista de adjacências.
@@ -108,7 +114,8 @@ namespace Graphs
             {
                 //Edge: 0 - Vértice de saída, 1 - Vértice de chegada, 2 - Peso da aresta
                 this.setEdge(edge.ElementAt(0), edge.ElementAt(1), edge.ElementAt(2));
-
+                //Determina o maior peso entre todas as arestas do grafo
+                this.maxWeight = Math.Max(this.maxWeight, edge.ElementAt(2));
             }           
         }
 
@@ -141,9 +148,7 @@ namespace Graphs
                 var adj = new List<Vertex>();
                 adj.Add(v);
                 adjacencyLists.Add(fromVertex, adj);
-            }
-
-           
+            }           
         }
 
         /// <summary>
@@ -165,28 +170,94 @@ namespace Graphs
             
         }
 
+        #endregion
 
-        //public void kruskalLista(KruskalType type)
-        //{
-        //    switch (type)
-        //    {
-        //        case KruskalType.ListaCount:
-        //            this.kruskalLista();
-        //            break;
-        //        case KruskalType.ArvoreCount:
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
+        #region kruskal
 
+        public int kruskal(KruskalType type)
+        {
+            //Declaração de variavies auxiliares
+            IUnionFind unionFind = null;
+            int minimumSpaningTreeCost = 0;
 
-        //private void kruskalLista()
-        //{
-        //    IUnionFind unionFind = new UnionFindLL(numberOfVertexes);
-            
-        //}
+            //Cria uma lista de arestas a partir da lista de adjacencias do grafo
+            List<Tuple<int, Edge>> edges = listGraphEdges();
+
+            //Verifica qual é o tipo de implementação do kruskal foi escolhida e executa as ações condizentes       
+            switch (type)
+            {
+                case KruskalType.LinkedListUFHeapSort:
+
+                    //Union Find implementado com listas encadeadas
+                    unionFind = new UnionFindLL(this.numberOfVertexes);
+
+                    //Faz o sorting com o HeapSort (in place)
+                    Sorting.Sorting<Edge>.HeapSort(ref edges);
+
+                    break;
+                  
+                case KruskalType.TreeUFHeapSort:
+
+                    //Union Find implementado com arvores
+                    unionFind = new UnionFindT(this.numberOfVertexes);
+
+                    //Faz o sorting com o HeapSort (in place)
+                    Sorting.Sorting<Edge>.HeapSort(ref edges);
+
+                    break;
+
+                case KruskalType.LinkedListUFCountingSort:
+
+                    //Union Find implementado com listas encadeadas
+                    unionFind = new UnionFindLL(this.numberOfVertexes);
+
+                    //Faz o sorting com o CountingSort
+                    edges = Sorting.Sorting<Edge>.CountingSort(edges, this.maxWeight);
+
+                    break;
+
+                case KruskalType.TreeUFCountingSort:
+
+                    //Union Find implementado com arvores
+                    unionFind = new UnionFindT(this.numberOfVertexes);
+
+                    //Faz o sorting com o CountingSort
+                    edges = Sorting.Sorting<Edge>.CountingSort(edges, this.maxWeight);
+
+                    break;
+
+                default:
+
+                    throw new ArgumentException("Tipo de Kruskal não especificado.");
+            }
+
+            //Percorre a lista ordenada de Arestas. Para quando todos os vértices já tiverem sido colocados na arvore geradora mínima.
+            int i = 1;
+            int j = 0;
+            while (i < this.numberOfVertexes)
+            {
+                //Decobre os conjuntos aos quais os vértices pertencem
+                int set1 = unionFind.Find(edges[j].Item2.vertexTo);
+                int set2 = unionFind.Find(edges[j].Item2.vertexFrom);
+
+                //Verifica se os vértices pertencem ao mesmo grupo (forma ciclo)
+                if ( set1 != set2 )
+                {
+                    //Soma o risco da aresta ao risco total da arvore geradora mínima
+                    minimumSpaningTreeCost += edges[j].Item1;
+                    //Une os conjuntos nos quais estão os vértices da aresta que foi adicionada na árvore geradora mínima
+                    unionFind.Union(set1, set2);
+                    i++;
+                }
+
+                j++;                
+            }
+
+            return minimumSpaningTreeCost;
+        }
 
         #endregion
+
+        
     }    
 }

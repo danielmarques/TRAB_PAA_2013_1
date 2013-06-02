@@ -58,7 +58,7 @@ namespace Main
         #region TEST EXPORT
 
 
-        public static ICollection<IEnumerable<int>> ExportedReadFile(string path)
+        public static ICollection<IEnumerable<int>> ExportedReadInputFile(string path)
         {
             return ReadInputFile(path);
         }

@@ -127,8 +127,8 @@ namespace Sorting
             //Histograma do Counting Sort que será usado para guardar listas de elementos com o mesmo peso
             List<int>[] histogram = new List<int>[range+1];
 
-            //Percorreo a lista de prioridades e preenche o histograma
-            for (int i = 0; i < range; i++)
+            //Percorre a lista de prioridades e preenche o histograma
+            for (int i = 0; i < priorityQueue.Count; i++)
 			{
                 //O histograma (usando a prioridade do elemento como posição) guarda (na lista daquela prioridade) o índice (posição) do elemento na lista de prioridades
                 if (histogram[priorityQueue[i].Item1] == null)
