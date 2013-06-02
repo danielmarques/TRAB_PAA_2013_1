@@ -50,11 +50,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="UnitTestHeapSort.cs" />
     <Compile Include="UnitTestUnionFindT.cs" />
     <Compile Include="UnitTestUnionFindLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sorting\Sorting.csproj">
+      <Project>{1b0df270-02b0-4497-99e4-409a21fcc8f4}</Project>
+      <Name>Sorting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UnionFind\UnionFind.csproj">
       <Project>{42a16a4b-e15d-41c6-8a9d-029df1c9b6c4}</Project>
       <Name>UnionFind</Name>
