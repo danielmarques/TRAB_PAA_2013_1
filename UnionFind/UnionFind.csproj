@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DA3A1616-E124-401D-B052-6CE652161DA9}</ProjectGuid>
+    <ProjectGuid>{42A16A4B-E15D-41C6-8A9D-029DF1C9B6C4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Graphs</RootNamespace>
-    <AssemblyName>Graphs</AssemblyName>
+    <RootNamespace>UnionFind</RootNamespace>
+    <AssemblyName>UnionFind</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,18 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graph.cs" />
+    <Compile Include="IUnionFind.cs" />
+    <Compile Include="UnionFind.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Sorting\Sorting.csproj">
-      <Project>{1b0df270-02b0-4497-99e4-409a21fcc8f4}</Project>
-      <Name>Sorting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UnionFind\UnionFind.csproj">
-      <Project>{42a16a4b-e15d-41c6-8a9d-029df1c9b6c4}</Project>
-      <Name>UnionFind</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

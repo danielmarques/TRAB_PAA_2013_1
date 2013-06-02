@@ -5,8 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Sorting;
 using System.Diagnostics;
+using UnionFind;
 namespace Graphs
-{     
+{
+
+    //enum KruskalType
+    //{
+    //    ListaCount ,
+    //    ArvoreCount
+    //}
 
     public class Graph
     {
@@ -16,7 +23,7 @@ namespace Graphs
         /// Cada vértice posicionado na adjacência de outro tem um identificador (key) e um peso (weight).
         /// O peso refer-se à aresta que liga os dois vértices.
         /// </summary>
-        public struct Vertex
+        protected struct Vertex
         {
             public int key;
             public int weight;
@@ -31,10 +38,11 @@ namespace Graphs
         /// <summary>
         /// Estrutura de dados que representa uma aresta do grafo (sem peso).
         /// </summary>
-        public struct Edge
+        protected struct Edge
         {
             public int vertexFrom { get; set; }
             public int vertexTo { get; set; }
+            
         }
         #endregion
 
@@ -94,7 +102,7 @@ namespace Graphs
             this.numberOfEdges = inputList.Count - 1;
 
             
-            //Constrou a lista de adjacências do grafo.
+            //Constroi a lista de adjacências do grafo.
             //Para cada aresta do grafo, coloca a aresta na lista de adjacências.
             foreach (var edge in listOfEdges)
             {
@@ -105,12 +113,12 @@ namespace Graphs
         }
 
         /// <summary>
-        /// Método que adiciona uma nova aresta à lista de adjacências do grafo.
+        /// Adiciona uma nova aresta à lista de adjacências do grafo.
         /// </summary>
         /// <param name="fromVertex">Vértice de partida da aresta.</param>
         /// <param name="toVertex">Vértice de chagada da aresta.</param>
         /// <param name="edgeWeight">Peso da aresta.</param>
-        public void setEdge(int fromVertex, int toVertex, int edgeWeight)
+        private void setEdge(int fromVertex, int toVertex, int edgeWeight)
         {
             Vertex v = new Vertex(toVertex, edgeWeight);
 
@@ -139,10 +147,10 @@ namespace Graphs
         }
 
         /// <summary>
-        /// Retorna todas as arestas do grafo, pareadas aos seus respectivos pesos, em uma lista.
+        /// Retorna todas as arestas do grafo, pareadas aos seus respectivos pesos, em uma lista de tuplas.
         /// </summary>
         /// <returns></returns>
-        public List<Tuple<int,Edge>> listGraphEdges()
+        private List<Tuple<int,Edge>> listGraphEdges()
         {
             List<Tuple<int, Edge>> listOfEdges = new List<Tuple<int, Edge>>();
 
@@ -155,7 +163,29 @@ namespace Graphs
 
             return listOfEdges;
             
-        }     
+        }
+
+
+        //public void kruskalLista(KruskalType type)
+        //{
+        //    switch (type)
+        //    {
+        //        case KruskalType.ListaCount:
+        //            this.kruskalLista();
+        //            break;
+        //        case KruskalType.ArvoreCount:
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+
+
+        //private void kruskalLista()
+        //{
+        //    IUnionFind unionFind = new UnionFindLL(numberOfVertexes);
+            
+        //}
 
         #endregion
     }    
