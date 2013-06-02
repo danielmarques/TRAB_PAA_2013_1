@@ -50,7 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTestHeapSort.cs" />
+    <Compile Include="UnitTestSorting.cs" />
     <Compile Include="UnitTestUnionFindT.cs" />
     <Compile Include="UnitTestUnionFindLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

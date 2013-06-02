@@ -109,10 +109,52 @@ namespace Sorting
 
         #region Counting
 
-        public static void CountingSort(ref List<Tuple<int, TValue>> priorityQueue, int range)
+        /// <summary>
+        /// Recebe uma lista de prioridades e retorna a mesma ordenada.
+        /// </summary>
+        /// <param name="priorityQueue">Lista de prioridades no formato (prioridade, elemento).</param>
+        /// <param name="range">Máxima prioridade de um elemento na lista.</param>
+        /// <returns></returns>
+        public static List<Tuple<int, TValue>> CountingSort(List<Tuple<int, TValue>> priorityQueue, int range)
         {
+            //Vetor auxiliar que será retornado ao final
+            List<Tuple<int, TValue>> orderedList = new List<Tuple<int,TValue>>();
 
+            //Legenda:
+            //priorityQueue.item1 = Prioridade do elemento na lista
+            //priorityQueue.item2 = Valor ou conteúdo do elemento na lista
+
+            //Histograma do Counting Sort que será usado para guardar listas de elementos com o mesmo peso
+            List<int>[] histogram = new List<int>[range+1];
+
+            //Percorreo a lista de prioridades e preenche o histograma
+            for (int i = 0; i < range; i++)
+			{
+                //O histograma (usando a prioridade do elemento como posição) guarda (na lista daquela prioridade) o índice (posição) do elemento na lista de prioridades
+                if (histogram[priorityQueue[i].Item1] == null)
+                {
+                    histogram[priorityQueue[i].Item1] = new List<int>();
+                }
+
+                histogram[priorityQueue[i].Item1].Add(i);
+			}
+
+            //Monsta a lista ordenada a partir da lista de entrada e do histograma
+            foreach (var priority in histogram)
+            {
+                if (priority == null)
+                    continue;
+
+                foreach (var element in priority)
+                {
+                    //Coloca na lista ordenada o proximo elemento indicado pelo histograma
+                    orderedList.Add(priorityQueue[element]);
+                }
+            }
+
+            return orderedList;
         }
+
         #endregion
     }
 }
