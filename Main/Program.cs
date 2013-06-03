@@ -13,14 +13,63 @@ namespace Main
 {
     public class Program
     {
+        #region Properties
 
+        /// <summary>
+        /// Buffer que guarda os resultados/desempenho dos algorítmos.
+        /// </summary>
+        private static StringBuilder outputBuffer = new StringBuilder("Arquivo de Entrada;Algoritmo;Custo Total AGM;Número de Vértices;Número de Arestas;Tempo de Execução (milisegundos)\n");
 
+        /// <summary>
+        /// Caminho relativo para a pasta default onde ficam os arquivos de entrada
+        /// </summary>
+        private static string inputPath = Path.Combine(Environment.CurrentDirectory, @"Inputs\");
+
+        /// <summary>
+        /// Caminho relativo para a pasta default onde são escritos os arquivos de saída
+        /// </summary>
+        private static string outputPath = Path.Combine(Environment.CurrentDirectory, @"Outputs\OUTPUT");
+
+        #endregion
+
+        /// <summary>
+        /// Função principal do programa
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
+            //Verifica na pasta Inputs quais são os arquivos de entrada (instâncias de teste) 
+            var inputFiles = Directory.EnumerateFiles(inputPath, "*.in", SearchOption.AllDirectories);
 
-            //Função principal do programa
+            var timer = Stopwatch.StartNew();
 
+            //Para cada arquivo de entrada na pasta Inputs
+            foreach (var inputFile in inputFiles)
+            {
+
+                //Inicialização do Grafo
+                var listFromInputFile = Program.ReadInputFile(inputFile);
+                var inputFileName = Directory.GetParent(inputFile).Name + "\\" + Path.GetFileName(inputFile);
+                Graph graph = new Graph(listFromInputFile);
+
+                
+                //Execução do Kruskal
+
+                foreach (KruskalType krustalType in Enum.GetValues(typeof(KruskalType)) )
+                {
+                    timer.Restart();
+                    int result = graph.Kruskal( krustalType );
+                    timer.Stop();
+                    WriteOutputBuffer(inputFileName, "Kruskal" + Enum.GetName(typeof(KruskalType),krustalType) , result, graph.NumberOfVertexes, graph.NumberOfEdges, timer.Elapsed.TotalMilliseconds);
+                }
+                
+            }
+
+            //Escreve os resultados no arquivo
+            WriteOutputFile();
         }
+
+        #region Methods
 
         /// <summary>
         /// Função que lê um arquivo de entrada (definido em path) e transcreve seu cointeúdo para uma lista de arrays de inteiros.
@@ -54,9 +103,39 @@ namespace Main
             return imputList;
         }
 
-#if DEBUG
-        #region TEST EXPORT
+        /// <summary>
+        /// Guarda os resultados na propriedade outputBuffer. No fim do programa o método WriteOutputFile é chamado para escrever este conteúdo em um arquivo.
+        /// </summary>
+        /// <param name="inputName"></param>
+        /// <param name="algorithmName"></param>
+        /// <param name="algorithmResult"></param>
+        /// <param name="numberOfVertex"></param>
+        /// <param name="numberOfEdges"></param>
+        /// <param name="timeElapsed"></param>
+        private static void WriteOutputBuffer(string inputName, string algorithmName, int algorithmResult, int numberOfVertex, int numberOfEdges, double timeElapsed)
+        {
 
+            outputBuffer.AppendFormat("{0};{1};{2};{3};{4};{5}\n", inputName, algorithmName, algorithmResult, numberOfVertex, numberOfEdges, timeElapsed);
+
+        }
+
+        /// <summary>
+        /// Escreve o conteúdo da propriedade outputBuffer em um arquivo.
+        /// </summary>
+        private static void WriteOutputFile()
+        {
+
+            StreamWriter sr = new StreamWriter(File.OpenWrite(String.Format("{0}{1}.csv" , outputPath, DateTime.Now.ToString("yyyyMMddhhmmss") ) ), Encoding.UTF8);
+            
+            sr.Write(outputBuffer);
+            sr.Close();
+        }
+
+        #endregion
+
+        #region DEBUG TEST EXPORT
+
+#if DEBUG    
 
         public static ICollection<IEnumerable<int>> ExportedReadInputFile(string path)
         {
@@ -64,7 +143,9 @@ namespace Main
         }
 
 
-        #endregion
+        
 #endif
+
+        #endregion
     }
 }

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Sorting
 {
+    /// <summary>
+    /// Classe que prove as operações de ordenação.
+    /// </summary>
+    /// <typeparam name="TValue">Tipo genérico dos elementos que compõem a lista de prioridades</typeparam>
     public class Sorting<TValue>
     {
         #region Heap

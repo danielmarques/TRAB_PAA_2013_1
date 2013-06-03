@@ -9,7 +9,11 @@ using UnionFind;
 namespace Graphs
 {
 
-    //Tipos de implementação do Kruskal
+    #region Enuns
+
+    /// <summary>
+    /// Identificadores para os tipos de implementação do algoritmo de Kruskal
+    /// </summary>
     public enum KruskalType
     {
         LinkedListUFHeapSort,       //UnionFind com listas encadeadas e sorting com HeapSort
@@ -18,6 +22,11 @@ namespace Graphs
         TreeUFCountingSort          //UnionFind com arvores e sorting com CountingSort
     }
 
+    #endregion
+
+    /// <summary>
+    /// Classe que prove diversas operações com grafos.
+    /// </summary>
     public class Graph
     {
         #region Structs
@@ -79,7 +88,7 @@ namespace Graphs
        /// A lista de adjacências do grafo utiliza a classe Dictionary e a interface ICollection, ambas implementadas pelo C#.
        /// O Dictionary cria um mapeamento (Chave, Valor) e prove métodos que dão suporte à essa coleção de ítens.
        /// O ICollecion é uma interface genérica que define métodos para manipular coleções de ítens. Para implementar essa interface foi utilizada a classe List do C#.
-       /// A Lista de adjacências do grafo é então uma lista (Dictionary) de coleções (ICollection) de vértices (vertex).
+       /// A Lista de adjacências do grafo é então uma lista (Dictionary) de coleções (ICollection) de vértices (vertex definido em structs (acima)).
        /// </summary>
         private Dictionary<int, ICollection<Vertex>> adjacencyLists;
                 
@@ -113,7 +122,7 @@ namespace Graphs
             foreach (var edge in listOfEdges)
             {
                 //Edge: 0 - Vértice de saída, 1 - Vértice de chegada, 2 - Peso da aresta
-                this.setEdge(edge.ElementAt(0), edge.ElementAt(1), edge.ElementAt(2));
+                this.SetEdge(edge.ElementAt(0), edge.ElementAt(1), edge.ElementAt(2));
                 //Determina o maior peso entre todas as arestas do grafo
                 this.maxWeight = Math.Max(this.maxWeight, edge.ElementAt(2));
             }           
@@ -125,7 +134,7 @@ namespace Graphs
         /// <param name="fromVertex">Vértice de partida da aresta.</param>
         /// <param name="toVertex">Vértice de chagada da aresta.</param>
         /// <param name="edgeWeight">Peso da aresta.</param>
-        private void setEdge(int fromVertex, int toVertex, int edgeWeight)
+        private void SetEdge(int fromVertex, int toVertex, int edgeWeight)
         {
             Vertex v = new Vertex(toVertex, edgeWeight);
 
@@ -155,7 +164,7 @@ namespace Graphs
         /// Retorna todas as arestas do grafo, pareadas aos seus respectivos pesos, em uma lista de tuplas.
         /// </summary>
         /// <returns></returns>
-        private List<Tuple<int,Edge>> listGraphEdges()
+        private List<Tuple<int,Edge>> ListGraphEdges()
         {
             List<Tuple<int, Edge>> listOfEdges = new List<Tuple<int, Edge>>();
 
@@ -174,17 +183,24 @@ namespace Graphs
 
         #region kruskal
 
-        public int kruskal(KruskalType type)
+        /// <summary>
+        /// Algoritmo de Kruskal com diversas implementações.
+        /// </summary>
+        /// <param name="implementationType">Tipo de implemantação que será usada para executar o algoritmo</param>
+        /// <returns></returns>
+        public int Kruskal(KruskalType implementationType)
         {
-            //Declaração de variavies auxiliares
-            IUnionFind unionFind = null;
+            //Declaração de variáveis auxiliares
             int minimumSpaningTreeCost = 0;
 
+            //IUnionFind é uma interface, sua implementação será escolhida no swich abaixo
+            IUnionFind unionFind = null;            
+
             //Cria uma lista de arestas a partir da lista de adjacencias do grafo
-            List<Tuple<int, Edge>> edges = listGraphEdges();
+            List<Tuple<int, Edge>> edges = ListGraphEdges();
 
             //Verifica qual é o tipo de implementação do kruskal foi escolhida e executa as ações condizentes       
-            switch (type)
+            switch (implementationType)
             {
                 case KruskalType.LinkedListUFHeapSort:
 
@@ -256,8 +272,6 @@ namespace Graphs
             return minimumSpaningTreeCost;
         }
 
-        #endregion
-
-        
+        #endregion        
     }    
 }

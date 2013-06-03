@@ -22,10 +22,10 @@ namespace UnitTests
                 var listFromFile = Program.ExportedReadInputFile(file);
                 Graph testGraph = new Graph(listFromFile);
 
-                int risk1 = testGraph.kruskal(KruskalType.LinkedListUFCountingSort);
-                int risk2 = testGraph.kruskal(KruskalType.LinkedListUFHeapSort);
-                int risk3 = testGraph.kruskal(KruskalType.TreeUFCountingSort);
-                int risk4 = testGraph.kruskal(KruskalType.TreeUFHeapSort);
+                int risk1 = testGraph.Kruskal(KruskalType.LinkedListUFCountingSort);
+                int risk2 = testGraph.Kruskal(KruskalType.LinkedListUFHeapSort);
+                int risk3 = testGraph.Kruskal(KruskalType.TreeUFCountingSort);
+                int risk4 = testGraph.Kruskal(KruskalType.TreeUFHeapSort);
 
                 Assert.IsTrue((risk1 == risk2) && (risk1 == risk3) && (risk1 == risk4));
 
