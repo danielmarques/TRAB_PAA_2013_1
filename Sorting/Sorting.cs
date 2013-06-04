@@ -20,7 +20,7 @@ namespace Sorting
         public static void HeapSort(ref List<Tuple<int, TValue>> priorityQueue)
         {
             //Coloca o vetor na ordem heap (Max).
-            Heapfy(ref priorityQueue);
+            HeapfyMax(ref priorityQueue);
 
             //Recupera o tamanho do vetor
             int size = priorityQueue.Count;
@@ -33,15 +33,15 @@ namespace Sorting
                 //Diminui o tamenho do vetor
                 size--;
                 //Restaura a propriedade do heap
-                HeapfyDown(ref priorityQueue, size, 0);
+                HeapfyDownMax(ref priorityQueue, size, 0);
             }
         }
 
         /// <summary>
-        /// Recebe uma lista de prioridades reordena a mesma na forma de Heap Max in place.
+        /// Recebe uma lista de prioridades reordena a mesma na forma de Heap Max in place em O(n).
         /// </summary>
         /// <param name="priorityQueue">Lista de prioridades</param>
-        private static void Heapfy(ref List<Tuple<int, TValue>> priorityQueue)
+        private static void HeapfyMax(ref List<Tuple<int, TValue>> priorityQueue)
         {
             //Recupera o tamanho da lista
             int heapLenght = priorityQueue.Count;
@@ -50,7 +50,7 @@ namespace Sorting
             //Cria o heap em O(n)
             for (int i = (int)Math.Ceiling(heapLenght / 2.0); i >= 0; i--)
             {
-                HeapfyDown(ref priorityQueue, heapLenght, i);
+                HeapfyDownMax(ref priorityQueue, heapLenght, i);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Sorting
         /// <param name="heapSize">Tamanho do heap</param>
         /// <param name="elementPosition">Posição do elemento na lista de prioridades</param>
         /// <returns></returns>
-        private static void HeapfyDown(ref List<Tuple<int, TValue>> priorityQueue, int heapSize, int elementPosition)
+        private static void HeapfyDownMax(ref List<Tuple<int, TValue>> priorityQueue, int heapSize, int elementPosition)
         {
 
             //Variaveis auxiliares para representar os filhos
@@ -87,7 +87,7 @@ namespace Sorting
                 //Troca os elementos para manter a propriedade do heap entre eles
                 SwapElements(ref priorityQueue, bigger, elementPosition);
                 //Mantem a porpriedade do heap no nívelm ais baixo
-                HeapfyDown(ref priorityQueue, heapSize, bigger);
+                HeapfyDownMax(ref priorityQueue, heapSize, bigger);
             }
 
 
