@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CDC084DC-726C-40EC-86DC-0BE449C07239}</ProjectGuid>
+    <ProjectGuid>{80EFA6A8-4F56-4757-934C-9ABDAC329C48}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTests</RootNamespace>
-    <AssemblyName>UnitTests</AssemblyName>
+    <RootNamespace>AllUnitTests</RootNamespace>
+    <AssemblyName>AllUnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,11 +50,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTestGraphs.cs" />
     <Compile Include="UnitTestKruskal.cs" />
     <Compile Include="UnitTestSorting.cs" />
-    <Compile Include="UnitTestUnionFindT.cs" />
     <Compile Include="UnitTestUnionFindLL.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTestUnionFindT.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Graphs\Graphs.csproj">

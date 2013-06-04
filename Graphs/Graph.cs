@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Sorting;
 using System.Diagnostics;
 using UnionFind;
+
 namespace Graphs
 {
 
@@ -75,8 +76,7 @@ namespace Graphs
         private int numberOfEdges;
         public int NumberOfEdges
         {
-            get { return numberOfEdges; }
-            
+            get { return numberOfEdges; }            
         }
 
         /// <summary>
@@ -103,29 +103,40 @@ namespace Graphs
         ///     Lista de números no formato das instâsncias de teste:
         ///     [número de vértices]
         ///     [aresta 1, vértice 1] [aresta 1, vértice 2] [risco aresta 1] ...
+        ///     Obs: Não pode ter arestas repetidas
         /// </param>
         public Graph(ICollection<IEnumerable<int>> inputList)
         {
             this.adjacencyLists = new Dictionary<int, ICollection<Vertex>>();
 
-            //Cria uma nova lista contendo apenas as arestas.
+            //Cria uma nova lista contendo apenas as arestas (Pula a primeira linha do arquivo).
             var listOfEdges = inputList.Skip(1);
 
-            //Calcula o número de vértices do grafo
+            //Calcula o número de vértices do grafo (Primeira linha do arquivo).
             this.numberOfVertexes =  inputList.First().First();
             
-            //Calcula o número de arestas do grafo
+            //Calcula o número de arestas do grafo. Cada linha do arquivo será contada como uma aresta única.
             this.numberOfEdges = inputList.Count - 1;
             
             //Constroi a lista de adjacências do grafo.
-            //Para cada aresta do grafo, coloca a aresta na lista de adjacências.
+            //Para cada aresta do grafo, coloca a aresta na lista de adjacências (para os dois vértices).
             foreach (var edge in listOfEdges)
             {
                 //Edge: 0 - Vértice de saída, 1 - Vértice de chegada, 2 - Peso da aresta
+                //Como o grafo é não direcionado, a aresta aparece na adjacencia dos dois vértices
                 this.SetEdge(edge.ElementAt(0), edge.ElementAt(1), edge.ElementAt(2));
+
+                //Teste para não adicionar duas vezes arestas de um vértice para ele mesmo
+                if (edge.ElementAt(0) != edge.ElementAt(1))
+                {
+                    this.SetEdge(edge.ElementAt(1), edge.ElementAt(0), edge.ElementAt(2));
+                }
+                
+
                 //Determina o maior peso entre todas as arestas do grafo
                 this.maxWeight = Math.Max(this.maxWeight, edge.ElementAt(2));
-            }           
+            }
+       
         }
 
         /// <summary>
@@ -138,16 +149,9 @@ namespace Graphs
         {
             Vertex v = new Vertex(toVertex, edgeWeight);
 
-            //Verifica se o vértice de chegada já existe na lista de adjacências. Se não existir, cria uma posição para o mesmo. 
-            if (!adjacencyLists.ContainsKey(toVertex))
-            {
-                var adj = new List<Vertex>();
-                adjacencyLists.Add(toVertex, adj);
-            }
-
             //Verifica se o vértice de saída já existe na lista de adjacências.
-            //Se existe então simplesmente coloca mais um vértice em sua adjacência.
-            //Senão cria uma posição para o vértice de partida com o vértice de chegada em sua adjacência.
+            //Se existe então simplesmente coloca mais um vértice (toVertex) em sua adjacência.
+            //Senão cria uma posição para o vértice de saída com o vértice de chegada em sua adjacência.
             if (adjacencyLists.ContainsKey(fromVertex))
             {
                 adjacencyLists[fromVertex].Add(v);
@@ -157,7 +161,14 @@ namespace Graphs
                 var adj = new List<Vertex>();
                 adj.Add(v);
                 adjacencyLists.Add(fromVertex, adj);
-            }           
+            }
+
+            ////Verifica se o vértice de chegada já existe na lista de adjacências. Se não existir, cria uma posição para o mesmo. 
+            //if (!adjacencyLists.ContainsKey(toVertex))
+            //{
+            //    var adj = new List<Vertex>();
+            //    adjacencyLists.Add(toVertex, adj);
+            //}
         }
 
         /// <summary>
