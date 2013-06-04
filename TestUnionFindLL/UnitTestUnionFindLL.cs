@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnionFind;
 
+//Testes da classe Union FindLL
 namespace UnitTests
 {
     [TestClass]

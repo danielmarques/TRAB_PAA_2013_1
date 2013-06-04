@@ -5,6 +5,7 @@ using Graphs;
 using Main;
 using System.IO;
 
+//Testes do método Kuskal
 namespace UnitTests
 {
     [TestClass]

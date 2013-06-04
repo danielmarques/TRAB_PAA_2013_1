@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
+//Testes da classe sorting
 namespace UnitTests
 {
     [TestClass]
