@@ -136,7 +136,6 @@ namespace Graphs
                 //Determina o maior peso entre todas as arestas do grafo
                 this.maxWeight = Math.Max(this.maxWeight, edge.ElementAt(2));
             }
-       
         }
 
         /// <summary>
@@ -183,9 +182,9 @@ namespace Graphs
             foreach (var adjacenyList in adjacencyLists)
             {
                 //Verticaliza de uma única vez todos os vizinhos do vértice, formata cada aresta com seu peso e adiciona a lista de arestas
-                listOfEdges.AddRange(adjacenyList.Value.Select(l => new Tuple<int, Edge>(item1: l.weight, item2: new Edge() { vertexFrom = adjacenyList.Key, vertexTo = l.key })));
+                listOfEdges.AddRange(adjacenyList.Value.Where(c => c.key >= adjacenyList.Key).Select(l => new Tuple<int, Edge>(item1: l.weight, item2: new Edge() { vertexFrom = adjacenyList.Key, vertexTo = l.key })));
             }
-
+       
             return listOfEdges;
             
         }
