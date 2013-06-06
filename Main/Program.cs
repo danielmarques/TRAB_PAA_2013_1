@@ -46,12 +46,12 @@ namespace Main
             //Para cada arquivo de entrada na pasta Inputs
             foreach (var inputFile in inputFiles)
             {
-
                 //Inicialização do Grafo
                 var listFromInputFile = Program.ReadInputFile(inputFile);
                 var inputFileName = Directory.GetParent(inputFile).Name + "\\" + Path.GetFileName(inputFile);
                 Graph graph = new Graph(listFromInputFile);
 
+                Console.WriteLine("Processando: {0}\n", inputFileName);
                 
                 //Execução do Kruskal
 
@@ -60,9 +60,8 @@ namespace Main
                     timer.Restart();
                     int result = graph.Kruskal( krustalType );
                     timer.Stop();
-                    WriteOutputBuffer(inputFileName, "Kruskal" + Enum.GetName(typeof(KruskalType),krustalType) , result, graph.NumberOfVertexes, graph.NumberOfEdges, timer.Elapsed.TotalMilliseconds);
-                }
-                
+                    WriteOutputBuffer(inputFileName, "Kruskal" + Enum.GetName(typeof(KruskalType),krustalType) , result, graph.NumberOfVertices, graph.NumberOfEdges, timer.Elapsed.TotalMilliseconds);                     
+                }                
             }
 
             //Escreve os resultados no arquivo
@@ -141,8 +140,6 @@ namespace Main
         {
             return ReadInputFile(path);
         }
-
-
         
 #endif
 

@@ -64,10 +64,10 @@ namespace Graphs
         /// <summary>
         /// Número de Vértices do grafo.
         /// </summary>
-        private int numberOfVertexes;
-        public int NumberOfVertexes
+        private int numberOfVertices;
+        public int NumberOfVertices
         {
-            get { return numberOfVertexes; }
+            get { return numberOfVertices; }
         }
         
         /// <summary>
@@ -113,7 +113,7 @@ namespace Graphs
             var listOfEdges = inputList.Skip(1);
 
             //Calcula o número de vértices do grafo (Primeira linha do arquivo).
-            this.numberOfVertexes =  inputList.First().First();
+            this.numberOfVertices =  inputList.First().First();
             
             //Calcula o número de arestas do grafo. Cada linha do arquivo será contada como uma aresta única.
             this.numberOfEdges = inputList.Count - 1;
@@ -215,7 +215,7 @@ namespace Graphs
                 case KruskalType.LinkedListUFHeapSort:
 
                     //Union Find implementado com listas encadeadas
-                    unionFind = new UnionFindLL(this.numberOfVertexes);
+                    unionFind = new UnionFindLL(this.numberOfVertices);
 
                     //Faz o sorting com o HeapSort (in place)
                     Sorting.Sorting<Edge>.HeapSort(ref edges);
@@ -225,7 +225,7 @@ namespace Graphs
                 case KruskalType.TreeUFHeapSort:
 
                     //Union Find implementado com arvores
-                    unionFind = new UnionFindT(this.numberOfVertexes);
+                    unionFind = new UnionFindT(this.numberOfVertices);
 
                     //Faz o sorting com o HeapSort (in place)
                     Sorting.Sorting<Edge>.HeapSort(ref edges);
@@ -235,7 +235,7 @@ namespace Graphs
                 case KruskalType.LinkedListUFCountingSort:
 
                     //Union Find implementado com listas encadeadas
-                    unionFind = new UnionFindLL(this.numberOfVertexes);
+                    unionFind = new UnionFindLL(this.numberOfVertices);
 
                     //Faz o sorting com o CountingSort
                     edges = Sorting.Sorting<Edge>.CountingSort(edges, this.maxWeight);
@@ -245,7 +245,7 @@ namespace Graphs
                 case KruskalType.TreeUFCountingSort:
 
                     //Union Find implementado com arvores
-                    unionFind = new UnionFindT(this.numberOfVertexes);
+                    unionFind = new UnionFindT(this.numberOfVertices);
 
                     //Faz o sorting com o CountingSort
                     edges = Sorting.Sorting<Edge>.CountingSort(edges, this.maxWeight);
@@ -260,7 +260,7 @@ namespace Graphs
             //Percorre a lista ordenada de Arestas. Para quando todos os vértices já tiverem sido colocados na arvore geradora mínima.
             int i = 1;
             int j = 0;
-            while (i < this.numberOfVertexes)
+            while (i < this.numberOfVertices)
             {
                 //Decobre os conjuntos aos quais os vértices pertencem
                 int set1 = unionFind.Find(edges[j].Item2.vertexTo);
