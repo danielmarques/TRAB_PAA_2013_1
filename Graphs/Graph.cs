@@ -84,9 +84,10 @@ namespace Graphs
         }
 
         /// <summary>
-        /// Maior peso de uma aresta do grafo.
+        /// Maior e menor peso de uma aresta do grafo.
         /// </summary>
         private int maxWeight;
+        private int minWeight;
 
         /// <summary>
        /// A lista de adjacências do grafo utiliza a classe Dictionary e a interface ICollection, ambas implementadas pelo C#.
@@ -297,29 +298,31 @@ namespace Graphs
         /// <returns></returns>
         public int Prim(PrimType implementationType)
         {
-            //Declaração de variáveis auxiliares
-            //
-            
+             //Declaração de variáveis auxiliares
+            int minimumSpaningTreeCost = 0;       
 
             //Cria uma lista de arestas a partir da lista de adjacencias do grafo
             List<Tuple<int, Edge>> edges = ListGraphEdges();
+
+            //Reordena a lista de arestas na forma de Heap Min (in place)
+            Sorting.Sorting<Edge>.HeapfyMin(ref edges);
 
             //Verifica qual é o tipo de implementação do Prim foi escolhida e executa as ações condizentes       
             switch (implementationType)
             {
                 case PrimType.PQEdge:
 
-                    //Faz o sorting com o HeapSort (in place)
-                    //Sorting.Sorting<Edge>.HeapSortMin(ref edges); ?
+                    //Devolve o elemento mínimo do Heap retirando do mesmo a aresta de menor prioridade
+                    var minEdge = Sorting.Sorting<Edge>.HeapExtractMin(edges);
 
                     break;
 
-                case PrimType.PQVertex:
+                //case PrimType.PQVertex:
 
                     //Faz o sorting com o HeapSort (in place)
                     //Sorting.Sorting<Edge>.HeapSortMin(ref edges); ?
 
-                    break;
+                  //  break;
               
                 default:
 
