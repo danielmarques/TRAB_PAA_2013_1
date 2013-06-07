@@ -13,7 +13,7 @@ namespace Graphs
     #region Enuns
 
     /// <summary>
-    /// Identificadores para os tipos de implementação do algoritmo de Kruskal
+    /// Identificadores para os tipos de implementação do algoritmo de Kruskal e Prim
     /// </summary>
     public enum KruskalType
     {
@@ -22,7 +22,11 @@ namespace Graphs
         LinkedListUFCountingSort,   //UnionFind com listas encadeadas e sorting com CountingSort
         TreeUFCountingSort          //UnionFind com arvores e sorting com CountingSort
     }
-
+    public enum PrimType
+    {
+        PQEdge,                     //PQEdge Fila de Prioridades sobre as arestas
+        PQVertex                    //PQVertex Fila de Prioridades com ChangeKey sobre os vértices
+    }
     #endregion
 
     /// <summary>
@@ -282,6 +286,53 @@ namespace Graphs
             return minimumSpaningTreeCost;
         }
 
-        #endregion        
+        #endregion
+
+        #region Prim
+
+        /// <summary>
+        /// Algoritmo de Prim com as duas implementações.
+        /// </summary>
+        /// <param name="implementationType">Tipo de implemantação que será usada para executar o algoritmo</param>
+        /// <returns></returns>
+        public int Prim(PrimType implementationType)
+        {
+            //Declaração de variáveis auxiliares
+            //
+            
+
+            //Cria uma lista de arestas a partir da lista de adjacencias do grafo
+            List<Tuple<int, Edge>> edges = ListGraphEdges();
+
+            //Verifica qual é o tipo de implementação do Prim foi escolhida e executa as ações condizentes       
+            switch (implementationType)
+            {
+                case PrimType.PQEdge:
+
+                    //Faz o sorting com o HeapSort (in place)
+                    //Sorting.Sorting<Edge>.HeapSortMin(ref edges); ?
+
+                    break;
+
+                case PrimType.PQVertex:
+
+                    //Faz o sorting com o HeapSort (in place)
+                    //Sorting.Sorting<Edge>.HeapSortMin(ref edges); ?
+
+                    break;
+              
+                default:
+
+                    throw new ArgumentException("Tipo de Prim não especificado.");
+            }
+
+            //INSERIR PRIM
+
+            }
+
+            return minimumSpaningTreeCost;
+        }
+
+        #endregion
     }    
 }
