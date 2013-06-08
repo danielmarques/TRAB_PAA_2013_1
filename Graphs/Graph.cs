@@ -298,7 +298,7 @@ namespace Graphs
         /// <returns></returns>
         public int Prim(PrimType implementationType)
         {
-             //Declaração de variáveis auxiliares
+            //Declaração de variáveis auxiliares
             int minimumSpaningTreeCost = 0;       
 
             //Cria uma lista de arestas a partir da lista de adjacencias do grafo
@@ -313,7 +313,7 @@ namespace Graphs
                 case PrimType.PQEdge:
 
                     //Devolve o elemento mínimo do Heap retirando do mesmo a aresta de menor prioridade
-                    var minEdge = Sorting.Sorting<Edge>.HeapExtractMin(edges);
+                    var minEdge = Sorting.Sorting<Edge>.HeapExtractMin(ref edges);
 
                     break;
 
@@ -330,8 +330,6 @@ namespace Graphs
             }
 
             //INSERIR PRIM
-
-            }
 
             return minimumSpaningTreeCost;
         }

@@ -80,7 +80,7 @@ namespace Sorting
         /// Recebe uma lista de prioridades reordena a mesma na forma de Heap Min in place em O(n).
         /// </summary>
         /// <param name="priorityQueue">Lista de prioridades</param>
-        private static void HeapfyMin(ref List<Tuple<int, TValue>> priorityQueue)
+        public static void HeapfyMin(ref List<Tuple<int, TValue>> priorityQueue)
         {
             //Recupera o tamanho da lista
             int heapSize = priorityQueue.Count;
