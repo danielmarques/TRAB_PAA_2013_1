@@ -223,7 +223,7 @@ namespace Graphs
                     unionFind = new UnionFindLL(this.numberOfVertices);
 
                     //Faz o sorting com o HeapSort (in place)
-                    Sorting.Sorting<Edge>.HeapSort(ref edges);
+                    Sorting.Heap<Edge>.HeapSort(ref edges);
 
                     break;
                   
@@ -233,7 +233,7 @@ namespace Graphs
                     unionFind = new UnionFindT(this.numberOfVertices);
 
                     //Faz o sorting com o HeapSort (in place)
-                    Sorting.Sorting<Edge>.HeapSort(ref edges);
+                    Sorting.Heap<Edge>.HeapSort(ref edges);
 
                     break;
 
@@ -305,7 +305,7 @@ namespace Graphs
             List<Tuple<int, Edge>> edges = ListGraphEdges();
 
             //Reordena a lista de arestas na forma de Heap Min (in place)
-            Sorting.Sorting<Edge>.HeapfyMin(ref edges);
+            //Sorting.Heap<Edge>.HeapfyMin(ref edges);
 
             //Verifica qual é o tipo de implementação do Prim foi escolhida e executa as ações condizentes       
             switch (implementationType)
@@ -313,7 +313,7 @@ namespace Graphs
                 case PrimType.PQEdge:
 
                     //Devolve o elemento mínimo do Heap retirando do mesmo a aresta de menor prioridade
-                    var minEdge = Sorting.Sorting<Edge>.HeapExtractMin(ref edges);
+                    //var minEdge = Sorting.Heap<Edge>.HeapExtractMin(ref edges);
 
                     break;
 
