@@ -59,8 +59,8 @@ namespace UnitTests
             for (int i = 1; i <= size; i++)
             {
                 testHeap.HeapAdd(rd.Next(1, int.MaxValue), i.ToString());
-                Assert.IsTrue(testHeap.HeapTreeSize() > heapTreeSizeBefore);
-                heapTreeSizeBefore = testHeap.HeapTreeSize();
+                Assert.IsTrue(testHeap.HeapSize() > heapTreeSizeBefore);
+                heapTreeSizeBefore = testHeap.HeapSize();
             }
 
             int minElementBefore = -1;
@@ -69,8 +69,8 @@ namespace UnitTests
             {
                 var minElement = testHeap.HeapExtractMin();
                 Assert.IsTrue(minElementBefore <= minElement.Item1);
-                Assert.IsTrue(testHeap.HeapTreeSize() < heapTreeSizeBefore);
-                heapTreeSizeBefore = testHeap.HeapTreeSize();
+                Assert.IsTrue(testHeap.HeapSize() < heapTreeSizeBefore);
+                heapTreeSizeBefore = testHeap.HeapSize();
             }
         }
 
@@ -105,8 +105,8 @@ namespace UnitTests
                 Assert.IsTrue(minElementBefore <= minElement.Item1);
                 Assert.IsTrue(testHeap.HeapPositionSize() < heapPositionSizeBefore);
                 heapPositionSizeBefore = testHeap.HeapPositionSize();
-                Assert.IsTrue(testHeap.HeapTreeSize() < heapTreeSizeBefore);
-                heapTreeSizeBefore = testHeap.HeapTreeSize();
+                Assert.IsTrue(testHeap.HeapSize() < heapTreeSizeBefore);
+                heapTreeSizeBefore = testHeap.HeapSize();
             }
         }
 
@@ -142,8 +142,8 @@ namespace UnitTests
                 Assert.IsTrue(minElementBefore <= minElement.Item1);
                 Assert.IsTrue(testHeap.HeapPositionSize() < heapPositionSizeBefore);
                 heapPositionSizeBefore = testHeap.HeapPositionSize();
-                Assert.IsTrue(testHeap.HeapTreeSize() < heapTreeSizeBefore);
-                heapTreeSizeBefore = testHeap.HeapTreeSize();
+                Assert.IsTrue(testHeap.HeapSize() < heapTreeSizeBefore);
+                heapTreeSizeBefore = testHeap.HeapSize();
             }
         }
     }
