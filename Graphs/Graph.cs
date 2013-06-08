@@ -315,6 +315,20 @@ namespace Graphs
                     //Devolve o elemento mínimo do Heap retirando do mesmo a aresta de menor prioridade
                     var minEdge = Sorting.Sorting<Edge>.HeapExtractMin(ref edges);
 
+                    //Cria uma lista de arestas a partir ds menores arestas extraídas
+                    List<int> mst = new List<int>();
+                    
+                    //Adiciona minEdge a essa nova lista
+
+                    //Cria um conjunto com os vértices desta lista
+
+                    //Verifica todas as arestas que incidem nesse conjunto
+
+                    //Refaz o procedimento a partir do HeapExtractMin
+
+                    // minimumSpaningTreeCost será a soma do constante na lista mst
+                    
+
                     break;
 
                 //case PrimType.PQVertex:
