@@ -354,10 +354,32 @@ namespace Graphs
                         explored[i] = false;
                     }
 
-                    //
+                    //declaração de variável
                     var heap = new Heap<Edge>();
 
-                    //INSERIR PRIM
+                    int u = 1;
+                    int v = 0;
+
+                    explored[u] = true;
+
+                    //Coloca no heap as arestas para os vértices que ainda não foram explorados
+                    foreach (var edge in adjacencyLists)
+                    {
+                        if (explored[u] != true)
+                            Edge aresta = new Edge();
+                            aresta.vertexFrom = u;
+                            aresta.vertexTo = v;
+                            heap.HeapAdd(weight, aresta);
+                    
+                    minimumSpaningTreeCost = 0;
+
+                    //Enquanto o heap não estiver vazio
+                    while (MyHeap.HeapSize != null )
+                        
+
+
+
+                    //////////
                   
 
                     break;
