@@ -143,6 +143,54 @@ namespace Graphs
             }
         }
 
+
+        /// <summary>
+        /// Construtor da classe Grafo. Inicializa a lista de adjacências do grafo. Randoniza as arestas do grafo de acordo com o percentual.
+        /// </summary>
+        /// <param name="inputList">
+        ///     Lista de números no formato das instâsncias de teste:
+        ///     [número de vértices]
+        ///     [aresta 1, vértice 1] [aresta 1, vértice 2] [risco aresta 1] ...
+        ///     Obs: Não pode ter arestas repetidas
+        /// </param>
+        /// <param name="percentual">Número de 1 até 100 que indica a densidade das arestas no grafo resultante.</param>param>
+        public Graph(ICollection<IEnumerable<int>> inputList, int percentual)
+        {
+            this.adjacencyLists = new Dictionary<int, ICollection<Vertex>>();
+            Random rd = new Random();
+
+            //Cria uma nova lista contendo apenas as arestas (Pula a primeira linha do arquivo).
+            var listOfEdges = inputList.Skip(1);
+            
+            this.numberOfEdges = 0;
+
+            //Constroi a lista de adjacências do grafo.
+            //Para cada aresta do grafo, coloca a aresta na lista de adjacências (para os dois vértices).
+            foreach (var edge in listOfEdges)
+            {
+                if (rd.Next(1, 100) <= percentual)
+                {
+                    //Edge: 0 - Vértice de saída, 1 - Vértice de chegada, 2 - Peso da aresta
+                    //Como o grafo é não direcionado, a aresta aparece na adjacencia dos dois vértices
+                    this.SetEdge(edge.ElementAt(0), edge.ElementAt(1), edge.ElementAt(2));
+
+                    //Teste para não adicionar duas vezes arestas de um vértice para ele mesmo
+                    if (edge.ElementAt(0) != edge.ElementAt(1))
+                    {
+                        this.SetEdge(edge.ElementAt(1), edge.ElementAt(0), edge.ElementAt(2));
+                    }
+
+                    //Determina o maior peso entre todas as arestas do grafo
+                    this.maxWeight = Math.Max(this.maxWeight, edge.ElementAt(2));
+                    //Calcula o número de arestas do grafo.
+                    this.numberOfEdges++;
+                }
+            }
+
+            //Calcula o número de vértices do grafo.
+            this.numberOfVertices = adjacencyLists.Count;            
+        }
+
         /// <summary>
         /// Adiciona uma nova aresta à lista de adjacências do grafo.
         /// </summary>
@@ -166,13 +214,6 @@ namespace Graphs
                 adj.Add(v);
                 adjacencyLists.Add(fromVertex, adj);
             }
-
-            ////Verifica se o vértice de chegada já existe na lista de adjacências. Se não existir, cria uma posição para o mesmo. 
-            //if (!adjacencyLists.ContainsKey(toVertex))
-            //{
-            //    var adj = new List<Vertex>();
-            //    adjacencyLists.Add(toVertex, adj);
-            //}
         }
 
         /// <summary>
@@ -190,8 +231,7 @@ namespace Graphs
                 listOfEdges.AddRange(adjacenyList.Value.Where(c => c.key >= adjacenyList.Key).Select(l => new Tuple<int, Edge>(item1: l.weight, item2: new Edge() { vertexFrom = adjacenyList.Key, vertexTo = l.key })));
             }
        
-            return listOfEdges;
-            
+            return listOfEdges;            
         }
 
         #endregion

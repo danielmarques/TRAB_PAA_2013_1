@@ -27,7 +27,7 @@ namespace Sorting
         /// Inicializa um Heap vazio.
         /// </summary>
         public Heap()
-        {
+        {            
             //Apenas inicializa os atributos da classe Heap.
             heapTree = new List<Tuple<int, int, TValue>>();
             heapPosition = new Dictionary<int, int>();
@@ -309,13 +309,17 @@ namespace Sorting
             HeapfyUpMin(NewElementPosition);
         }
 
+        /// <summary>
+        /// Retorna do amanho atual do Heap. Somenta a o Heap instanciado.
+        /// </summary>
+        /// <returns></returns>
+        public int HeapSize()
+        {
+            return heapTree.Count;
+        }
+
         #region DEBUG TEST EXPORT
         #if DEBUG
-
-        public int HeapTreeSize()
-        {
-            return (int) heapTree.Count;
-        }
 
         public int HeapPositionSize()
         {
