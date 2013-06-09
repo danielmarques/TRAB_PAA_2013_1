@@ -339,13 +339,7 @@ namespace Graphs
         public int Prim(PrimType implementationType)
         {
             //Declaração de variáveis auxiliares
-            int minimumSpaningTreeCost = 0;       
-
-            //Cria uma lista de arestas a partir da lista de adjacencias do grafo
-            List<Tuple<int, Edge>> edges = ListGraphEdges();
-
-            //Reordena a lista de arestas na forma de Heap Min (in place)
-            //Sorting.Heap<Edge>.HeapfyMin(ref edges);
+            int minimumSpaningTreeCost = 0;
 
             //Verifica qual é o tipo de implementação do Prim foi escolhida e executa as ações condizentes       
             switch (implementationType)
@@ -353,34 +347,32 @@ namespace Graphs
                 case PrimType.PQEdge:
 
                     //declaração de variável vetor de boolean com n+1 posições
-                    bool[] explorado = new bool[numberOfVertices + 1];
+                    bool[] explored = new bool[numberOfVertices + 1];
 
                     for (int i = 0; i <= (numberOfVertices + 1); i++)
                     {
-                        explorado[i] = false;
+                        explored[i] = false;
                     }
 
                     //
-                    heap = new Heap<Edge>();
-                    
-                    //início
+                    var heap = new Heap<Edge>();
+
+                    //INSERIR PRIM
                   
 
                     break;
 
-                //case PrimType.PQVertex:
+                case PrimType.PQVertex:
 
-                    //Faz o sorting com o HeapSort (in place)
-                    //Sorting.Sorting<Edge>.HeapSortMin(ref edges); ?
+                    //Outra versão do prim
 
-                  //  break;
+                    break;
               
                 default:
 
                     throw new ArgumentException("Tipo de Prim não especificado.");
             }
-
-            //INSERIR PRIM
+            
 
             return minimumSpaningTreeCost;
         }
