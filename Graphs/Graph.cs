@@ -59,7 +59,7 @@ namespace Graphs
         {
             public int vertexFrom { get; set; }
             public int vertexTo { get; set; }
-            
+
         }
         #endregion
 
@@ -73,14 +73,14 @@ namespace Graphs
         {
             get { return numberOfVertices; }
         }
-        
+
         /// <summary>
         /// Número de arestas do grafo.
         /// </summary>
         private int numberOfEdges;
         public int NumberOfEdges
         {
-            get { return numberOfEdges; }            
+            get { return numberOfEdges; }
         }
 
         /// <summary>
@@ -90,13 +90,13 @@ namespace Graphs
         private int minWeight;
 
         /// <summary>
-       /// A lista de adjacências do grafo utiliza a classe Dictionary e a interface ICollection, ambas implementadas pelo C#.
-       /// O Dictionary cria um mapeamento (Chave, Valor) e prove métodos que dão suporte à essa coleção de ítens.
-       /// O ICollecion é uma interface genérica que define métodos para manipular coleções de ítens. Para implementar essa interface foi utilizada a classe List do C#.
-       /// A Lista de adjacências do grafo é então uma lista (Dictionary) de coleções (ICollection) de vértices (vertex definido em structs (acima)).
-       /// </summary>
+        /// A lista de adjacências do grafo utiliza a classe Dictionary e a interface ICollection, ambas implementadas pelo C#.
+        /// O Dictionary cria um mapeamento (Chave, Valor) e prove métodos que dão suporte à essa coleção de ítens.
+        /// O ICollecion é uma interface genérica que define métodos para manipular coleções de ítens. Para implementar essa interface foi utilizada a classe List do C#.
+        /// A Lista de adjacências do grafo é então uma lista (Dictionary) de coleções (ICollection) de vértices (vertex definido em structs (acima)).
+        /// </summary>
         private Dictionary<int, ICollection<Vertex>> adjacencyLists;
-                
+
         #endregion
 
         #region Methods
@@ -118,11 +118,11 @@ namespace Graphs
             var listOfEdges = inputList.Skip(1);
 
             //Calcula o número de vértices do grafo (Primeira linha do arquivo).
-            this.numberOfVertices =  inputList.First().First();
-            
+            this.numberOfVertices = inputList.First().First();
+
             //Calcula o número de arestas do grafo. Cada linha do arquivo será contada como uma aresta única.
             this.numberOfEdges = inputList.Count - 1;
-            
+
             //Constroi a lista de adjacências do grafo.
             //Para cada aresta do grafo, coloca a aresta na lista de adjacências (para os dois vértices).
             foreach (var edge in listOfEdges)
@@ -136,7 +136,7 @@ namespace Graphs
                 {
                     this.SetEdge(edge.ElementAt(1), edge.ElementAt(0), edge.ElementAt(2));
                 }
-                
+
 
                 //Determina o maior peso entre todas as arestas do grafo
                 this.maxWeight = Math.Max(this.maxWeight, edge.ElementAt(2));
@@ -161,7 +161,7 @@ namespace Graphs
 
             //Cria uma nova lista contendo apenas as arestas (Pula a primeira linha do arquivo).
             var listOfEdges = inputList.Skip(1);
-            
+
             this.numberOfEdges = 0;
 
             //Constroi a lista de adjacências do grafo.
@@ -188,7 +188,7 @@ namespace Graphs
             }
 
             //Calcula o número de vértices do grafo.
-            this.numberOfVertices = adjacencyLists.Count;            
+            this.numberOfVertices = adjacencyLists.Count;
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace Graphs
         /// Retorna todas as arestas do grafo, pareadas aos seus respectivos pesos, em uma lista de tuplas.
         /// </summary>
         /// <returns></returns>
-        private List<Tuple<int,Edge>> ListGraphEdges()
+        private List<Tuple<int, Edge>> ListGraphEdges()
         {
             List<Tuple<int, Edge>> listOfEdges = new List<Tuple<int, Edge>>();
 
@@ -230,8 +230,8 @@ namespace Graphs
                 //Verticaliza de uma única vez todos os vizinhos do vértice, formata cada aresta com seu peso e adiciona a lista de arestas
                 listOfEdges.AddRange(adjacenyList.Value.Where(c => c.key >= adjacenyList.Key).Select(l => new Tuple<int, Edge>(item1: l.weight, item2: new Edge() { vertexFrom = adjacenyList.Key, vertexTo = l.key })));
             }
-       
-            return listOfEdges;            
+
+            return listOfEdges;
         }
 
         #endregion
@@ -249,7 +249,7 @@ namespace Graphs
             int minimumSpaningTreeCost = 0;
 
             //IUnionFind é uma interface, sua implementação será escolhida no swich abaixo
-            IUnionFind unionFind = null;            
+            IUnionFind unionFind = null;
 
             //Cria uma lista de arestas a partir da lista de adjacencias do grafo
             List<Tuple<int, Edge>> edges = ListGraphEdges();
@@ -266,7 +266,7 @@ namespace Graphs
                     Sorting.Heap<Edge>.HeapSort(ref edges);
 
                     break;
-                  
+
                 case KruskalType.TreeUFHeapSort:
 
                     //Union Find implementado com arvores
@@ -312,7 +312,7 @@ namespace Graphs
                 int set2 = unionFind.Find(edges[j].Item2.vertexFrom);
 
                 //Verifica se os vértices pertencem ao mesmo grupo (forma ciclo)
-                if ( set1 != set2 )
+                if (set1 != set2)
                 {
                     //Soma o risco da aresta ao risco total da arvore geradora mínima
                     minimumSpaningTreeCost += edges[j].Item1;
@@ -321,7 +321,7 @@ namespace Graphs
                     i++;
                 }
 
-                j++;                
+                j++;
             }
 
             return minimumSpaningTreeCost;
@@ -336,51 +336,49 @@ namespace Graphs
         /// </summary>
         /// <param name="implementationType">Tipo de implemantação que será usada para executar o algoritmo</param>
         /// <returns></returns>
-        public int Prim(PrimType implementationType)
+        public int Prim(PrimType implementationType, int initialVertex)
         {
-            //Declaração de variáveis auxiliares
+            //Declaração de variáveis auxiliares que serão usadas globalmente
             int minimumSpaningTreeCost = 0;
+            Edge edge = new Edge();
 
             //Verifica qual é o tipo de implementação do Prim foi escolhida e executa as ações condizentes       
             switch (implementationType)
             {
                 case PrimType.PQEdge:
 
-                    //declaração de variável vetor de boolean com n+1 posições
+                    //Vetor boolean com n + 1 posições que controla quais vértices já foram explorados
                     bool[] explored = new bool[numberOfVertices + 1];
-
+                    //Inicialização do vetor
                     for (int i = 0; i <= (numberOfVertices + 1); i++)
                     {
                         explored[i] = false;
                     }
 
-                    //declaração de variável
+                    //Declaração de variável que representa o heap
                     var heap = new Heap<Edge>();
 
-                    int u = 1;
-                    int v = 0;
+                    //Marca o vértice inicial como explorado
+                    explored[initialVertex] = true;
 
-                    explored[u] = true;
-
-                    //Coloca no heap as arestas para os vértices que ainda não foram explorados
-                    foreach (var edge in adjacencyLists)
+                    //Coloca no heap as arestas incidentes sobre o vértice inicial
+                    foreach (var vertex in adjacencyLists[initialVertex])
                     {
-                        if (explored[u] != true)
-                            Edge aresta = new Edge();
-                            aresta.vertexFrom = u;
-                            aresta.vertexTo = v;
-                            heap.HeapAdd(weight, aresta);
-                    
-                    minimumSpaningTreeCost = 0;
+                        if (explored[initialVertex] != true)
+                            
+                            edge.vertexFrom = initialVertex;
+                            edge.vertexTo = vertex.key;
+                            heap.HeapAdd(vertex.weight, edge);
+                    }
 
                     //Enquanto o heap não estiver vazio
-                    while (MyHeap.HeapSize != null )
-                        
-
-
-
-                    //////////
-                  
+                    while (heap.HeapSize() > 0 )
+                    {
+                        //Continua aqui dentro
+                        //Vai tirando uma aresta de cada vez do heap
+                        //testa se tem um vértice não explorado na aresta
+                        //se tem então faz um looping parecido com o feito logo acima
+                    }                  
 
                     break;
 
@@ -400,5 +398,6 @@ namespace Graphs
         }
 
         #endregion
-    }    
+    }
+    }
 }

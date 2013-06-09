@@ -310,7 +310,7 @@ namespace Sorting
         }
 
         /// <summary>
-        /// Retorna do amanho atual do Heap. Somenta a o Heap instanciado.
+        /// Retorna o número de elementos atual do Heap. Somente para o Heap instanciado.
         /// </summary>
         /// <returns></returns>
         public int HeapSize()
