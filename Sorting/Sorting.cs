@@ -367,7 +367,7 @@ namespace Sorting
                 histogram[priorityQueue[i].Item1].Add(i);
             }
 
-            //Monsta a lista ordenada a partir da lista de entrada e do histograma
+            //Monta a lista ordenada a partir da lista de entrada e do histograma
             foreach (var priority in histogram)
             {
                 if (priority == null)
