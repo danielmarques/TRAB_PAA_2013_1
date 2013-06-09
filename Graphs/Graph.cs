@@ -355,13 +355,8 @@ namespace Graphs
             {
                 case PrimType.PQEdge:
 
-                    //Vetor boolean com n + 1 posições que controla quais vértices já foram explorados
-                    bool[] explored = new bool[numberOfVertices + 1];
-                    //Inicialização do vetor
-                    for (int i = 0; i <= (numberOfVertices + 1); i++)
-                    {
-                        explored[i] = false;
-                    }
+                    //Vetor boolean com n + 1 posições que controla quais vértices já foram explorados. O vetor é inicializado com todas as posições em false.
+                    bool[] explored = Enumerable.Repeat(false, numberOfVertices + 1).ToArray();
 
                     //Declaração de variável que representa o heap
                     var heap = new Heap<Edge>();
@@ -372,7 +367,7 @@ namespace Graphs
                     //Coloca no heap as arestas incidentes sobre o vértice inicial
                     foreach (var vertex in adjacencyLists[initialVertex])
                     {
-                        if (explored[initialVertex] != true)
+                        if (explored[vertex.key] == false)
                         {
                             edge.vertexFrom = initialVertex;
                             edge.vertexTo = vertex.key;
@@ -407,7 +402,7 @@ namespace Graphs
                             foreach (var vertex in adjacencyLists[unexploredVertex])
                             {
                                 //Se o vértice de destino já foi explorado antão não coloca a aresta no heap
-                                if (explored[unexploredVertex] != true)
+                                if (explored[vertex.key] != true)
                                 {
                                     edge.vertexFrom = unexploredVertex;
                                     edge.vertexTo = vertex.key;

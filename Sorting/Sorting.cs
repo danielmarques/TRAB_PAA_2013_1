@@ -42,10 +42,11 @@ namespace Sorting
             //Guarda os valores no atributo heapTree para depois ordenar como um heap min
             heapTree = priorityQueue;
 
-            heapPosition = new Dictionary<int, int>();
+            //var heapPosition = Enumerable.Range(1, heapTree.Count).ToDictionary(a => a);
+            heapPosition = new Dictionary<int, int>();            
 
-            //Inicializa as posições dos elementos do heap (embora a posição zero seja adicionada ela não será usada)
-            //heapTree.Count é um atributo da classe List que guarda o número de elementos da lista
+            ////Inicializa as posições dos elementos do heap (embora a posição zero seja adicionada ela não será usada)
+            ////heapTree.Count é um atributo da classe List que guarda o número de elementos da lista
             for (int i = 1; i <= heapTree.Count; i++)
             {
                 heapPosition.Add(i, i);
