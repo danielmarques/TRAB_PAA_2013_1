@@ -373,45 +373,48 @@ namespace Graphs
                     foreach (var vertex in adjacencyLists[initialVertex])
                     {
                         if (explored[initialVertex] != true)
-                            
+                        {
                             edge.vertexFrom = initialVertex;
                             edge.vertexTo = vertex.key;
                             heap.HeapAdd(vertex.weight, edge);
+                        }
                     }
 
                     //Enquanto o heap não estiver vazio
                     while (heap.HeapSize() > 0 )
                     {
-                        //Extrai a menor aresta do heap
-                        heap.HeapExtractMin();
+                        //Extrai a menor aresta do heap. A aresta vem encapsulada com peso e índice.
+                        var extractedEdge = heap.HeapExtractMin();
+                        int edgeWeight = extractedEdge.Item1;
+                        edge = extractedEdge.Item3;
                         
                         //Verifica qual vértice ainda não foi explorado
-                        int vertex1 = 0;
+                        int unexploredVertex = 0;
                         
-                        if (explored[edge.vertexFrom] == false)
-                            
-                            vertex1 = edge.vertexFrom;
+                        if (explored[edge.vertexFrom] == false)                            
+                            unexploredVertex = edge.vertexFrom;
                         
-                        else 
-                            if (explored[edge.vertexTo] == false)
-
-                            vertex1 = edge.vertexTo;
+                        else if (explored[edge.vertexTo] == false)
+                            unexploredVertex = edge.vertexTo;
 
                         //Se os dois vértices já foram explorados não faz nada
-                        if (vertex1 != 0)
+                        if (unexploredVertex != 0)
+                        {
+                            minimumSpaningTreeCost += edgeWeight;
+                            explored[unexploredVertex] = true;
 
-                            minimumSpaningTreeCost += vertex.weight;
-                            explored [vertex1] = true;
-
-                            foreach (var vertex in adjacencyLists[vertex1])
+                            //Adiciona as arestas na vizinhaca do vértice no heap
+                            foreach (var vertex in adjacencyLists[unexploredVertex])
                             {
-                              if (explored[vertex1] != true)
-                            
-                              edge.vertexFrom = vertex1;
-                              edge.vertexTo = vertex.key;
-                              heap.HeapAdd(vertex.weight, edge);
+                                //Se o vértice de destino já foi explorado antão não coloca a aresta no heap
+                                if (explored[unexploredVertex] != true)
+                                {
+                                    edge.vertexFrom = unexploredVertex;
+                                    edge.vertexTo = vertex.key;
+                                    heap.HeapAdd(vertex.weight, edge);
+                                }
                             }
-
+                        }
                     }                  
 
                     break;
