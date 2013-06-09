@@ -382,10 +382,36 @@ namespace Graphs
                     //Enquanto o heap não estiver vazio
                     while (heap.HeapSize() > 0 )
                     {
-                        //Continua aqui dentro
-                        //Vai tirando uma aresta de cada vez do heap
-                        //testa se tem um vértice não explorado na aresta
-                        //se tem então faz um looping parecido com o feito logo acima
+                        //Extrai a menor aresta do heap
+                        heap.HeapExtractMin();
+                        
+                        //Verifica qual vértice ainda não foi explorado
+                        int vertex1 = 0;
+                        
+                        if (explored[edge.vertexFrom] == false)
+                            
+                            vertex1 = edge.vertexFrom;
+                        
+                        else 
+                            if (explored[edge.vertexTo] == false)
+
+                            vertex1 = edge.vertexTo;
+
+                        //Se os dois vértices já foram explorados não faz nada
+                        if (vertex1 != 0)
+
+                            minimumSpaningTreeCost += vertex.weight;
+                            explored [vertex1] = true;
+
+                            foreach (var vertex in adjacencyLists[vertex1])
+                            {
+                              if (explored[vertex1] != true)
+                            
+                              edge.vertexFrom = vertex1;
+                              edge.vertexTo = vertex.key;
+                              heap.HeapAdd(vertex.weight, edge);
+                            }
+
                     }                  
 
                     break;
