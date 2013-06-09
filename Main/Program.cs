@@ -48,8 +48,7 @@ namespace Main
             {
                 //Inicialização do Grafo
                 var listFromInputFile = Program.ReadInputFile(inputFile);
-                var inputFileName = Directory.GetParent(inputFile).Name + "\\" + Path.GetFileName(inputFile);
-                Graph graph = new Graph(listFromInputFile);
+                var inputFileName = Directory.GetParent(inputFile).Name + "\\" + Path.GetFileName(inputFile);                
 
                 Console.WriteLine("Processando: {0}\n", inputFileName);
                 
@@ -57,6 +56,7 @@ namespace Main
 
                 foreach (KruskalType krustalType in Enum.GetValues(typeof(KruskalType)) )
                 {
+                    Graph graph = new Graph(listFromInputFile);
                     timer.Restart();
                     int result = graph.Kruskal( krustalType );
                     timer.Stop();

@@ -84,10 +84,9 @@ namespace Graphs
         }
 
         /// <summary>
-        /// Maior e menor peso de uma aresta do grafo.
+        /// Maior peso de uma aresta do grafo.
         /// </summary>
         private int maxWeight;
-        private int minWeight;
 
         /// <summary>
         /// A lista de adjacências do grafo utiliza a classe Dictionary e a interface ICollection, ambas implementadas pelo C#.
@@ -96,6 +95,11 @@ namespace Graphs
         /// A Lista de adjacências do grafo é então uma lista (Dictionary) de coleções (ICollection) de vértices (vertex definido em structs (acima)).
         /// </summary>
         private Dictionary<int, ICollection<Vertex>> adjacencyLists;
+
+        /// <summary>
+        /// Lista de arestas do grafo
+        /// </summary>
+        private List<Tuple<int, Edge>> graphEdges;
 
         #endregion
 
@@ -141,6 +145,9 @@ namespace Graphs
                 //Determina o maior peso entre todas as arestas do grafo
                 this.maxWeight = Math.Max(this.maxWeight, edge.ElementAt(2));
             }
+
+            //Preenche a lista de arestas do grafo
+            graphEdges = ListGraphEdges();
         }
 
 
@@ -189,6 +196,9 @@ namespace Graphs
 
             //Calcula o número de vértices do grafo.
             this.numberOfVertices = adjacencyLists.Count;
+
+            //Preenche a lista de arestas do grafo
+            graphEdges = ListGraphEdges();
         }
 
         /// <summary>
@@ -251,9 +261,6 @@ namespace Graphs
             //IUnionFind é uma interface, sua implementação será escolhida no swich abaixo
             IUnionFind unionFind = null;
 
-            //Cria uma lista de arestas a partir da lista de adjacencias do grafo
-            List<Tuple<int, Edge>> edges = ListGraphEdges();
-
             //Verifica qual é o tipo de implementação do kruskal foi escolhida e executa as ações condizentes       
             switch (implementationType)
             {
@@ -263,7 +270,7 @@ namespace Graphs
                     unionFind = new UnionFindLL(this.numberOfVertices);
 
                     //Faz o sorting com o HeapSort (in place)
-                    Sorting.Heap<Edge>.HeapSort(ref edges);
+                    Sorting.Heap<Edge>.HeapSort(ref graphEdges);
 
                     break;
 
@@ -273,7 +280,7 @@ namespace Graphs
                     unionFind = new UnionFindT(this.numberOfVertices);
 
                     //Faz o sorting com o HeapSort (in place)
-                    Sorting.Heap<Edge>.HeapSort(ref edges);
+                    Sorting.Heap<Edge>.HeapSort(ref graphEdges);
 
                     break;
 
@@ -283,7 +290,7 @@ namespace Graphs
                     unionFind = new UnionFindLL(this.numberOfVertices);
 
                     //Faz o sorting com o CountingSort
-                    edges = Sorting.Sorting<Edge>.CountingSort(edges, this.maxWeight);
+                    graphEdges = Sorting.Sorting<Edge>.CountingSort(graphEdges, this.maxWeight);
 
                     break;
 
@@ -293,7 +300,7 @@ namespace Graphs
                     unionFind = new UnionFindT(this.numberOfVertices);
 
                     //Faz o sorting com o CountingSort
-                    edges = Sorting.Sorting<Edge>.CountingSort(edges, this.maxWeight);
+                    graphEdges = Sorting.Sorting<Edge>.CountingSort(graphEdges, this.maxWeight);
 
                     break;
 
@@ -302,20 +309,21 @@ namespace Graphs
                     throw new ArgumentException("Tipo de Kruskal não especificado.");
             }
 
-            //Percorre a lista ordenada de Arestas. Para quando todos os vértices já tiverem sido colocados na arvore geradora mínima.
+            //Percorre a lista ordenada de Arestas. 
+            //Termina o looping quando todos os vértices já tiverem sido colocados na arvore geradora mínima.
             int i = 1;
             int j = 0;
             while (i < this.numberOfVertices)
             {
                 //Decobre os conjuntos aos quais os vértices pertencem
-                int set1 = unionFind.Find(edges[j].Item2.vertexTo);
-                int set2 = unionFind.Find(edges[j].Item2.vertexFrom);
+                int set1 = unionFind.Find(graphEdges[j].Item2.vertexTo);
+                int set2 = unionFind.Find(graphEdges[j].Item2.vertexFrom);
 
                 //Verifica se os vértices pertencem ao mesmo grupo (forma ciclo)
                 if (set1 != set2)
                 {
                     //Soma o risco da aresta ao risco total da arvore geradora mínima
-                    minimumSpaningTreeCost += edges[j].Item1;
+                    minimumSpaningTreeCost += graphEdges[j].Item1;
                     //Une os conjuntos nos quais estão os vértices da aresta que foi adicionada na árvore geradora mínima
                     unionFind.Union(set1, set2);
                     i++;
@@ -398,6 +406,5 @@ namespace Graphs
         }
 
         #endregion
-    }
     }
 }
