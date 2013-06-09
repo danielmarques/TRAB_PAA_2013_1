@@ -344,7 +344,7 @@ namespace Graphs
         /// </summary>
         /// <param name="implementationType">Tipo de implemantação que será usada para executar o algoritmo</param>
         /// <returns></returns>
-        public int Prim(PrimType implementationType, int initialVertex, int VertexX)
+        public int Prim(PrimType implementationType, int initialVertex)
         {
             //Declaração de variáveis auxiliares que serão usadas globalmente
             int minimumSpaningTreeCost = 0;
