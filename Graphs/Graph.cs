@@ -352,22 +352,19 @@ namespace Graphs
             {
                 case PrimType.PQEdge:
 
-                    //Devolve o elemento mínimo do Heap retirando do mesmo a aresta de menor prioridade
-                    //var minEdge = Sorting.Heap<Edge>.HeapExtractMin(ref edges);
+                    //declaração de variável vetor de boolean com n+1 posições
+                    bool[] explorado = new bool[numberOfVertices + 1];
 
-                    //Cria uma lista de arestas a partir ds menores arestas extraídas
-                    List<int> mst = new List<int>();
+                    for (int i = 0; i <= (numberOfVertices + 1); i++)
+                    {
+                        explorado[i] = false;
+                    }
+
+                    //
+                    heap = new Heap<Edge>();
                     
-                    //Adiciona minEdge a essa nova lista
-
-                    //Cria um conjunto com os vértices desta lista
-
-                    //Verifica todas as arestas que incidem nesse conjunto
-
-                    //Refaz o procedimento a partir do HeapExtractMin
-
-                    // minimumSpaningTreeCost será a soma do constante na lista mst
-                    
+                    //início
+                  
 
                     break;
 
