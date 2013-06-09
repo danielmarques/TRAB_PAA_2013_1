@@ -12,7 +12,6 @@ namespace UnionFind
     /// </summary>
     public class UnionFindLL : IUnionFind
     {
-
         #region Properties
 
         /// <summary>
@@ -46,20 +45,18 @@ namespace UnionFind
         /// <param name="numberOfSets"></param>
         public UnionFindLL(int numberOfSets)
         {
-
             //Inicializa o vetor auxiliar do Union Fint para a quantidade inicial de conjuntos.
             //A posição zero não será usada, por tanto o vetor deve ter uma posição a mais.
             //Inicialmente, cada elemento é representante de seu próprio conjunto (por isso recebe o valor -1).
             this.setsFrameworks = Enumerable.Repeat(-1, numberOfSets + 1).ToList();
 
-            //Inicializa o vetor auxiliar da lista encadeada.
+            //Inicializa o vetor auxiliar de proximo elemento da lista encadeada.
             //Inicialmente os elementos não tem um próximo (recebem -1).
             this.nextElement = Enumerable.Repeat(-1, numberOfSets + 1).ToList();
 
             //Inicializa a lista de caldas das listas encadeadas
             //Inicailamente cada elemento é a clada de sua propria lista
             this.setsTails = Enumerable.Range(0, numberOfSets + 1).ToList();
-
         }
 
         #endregion
@@ -145,7 +142,6 @@ namespace UnionFind
         }
 
         #endregion
-
     }
 
     /// <summary>
@@ -154,7 +150,6 @@ namespace UnionFind
     /// </summary>
     public class UnionFindT : IUnionFind
     {
-
         #region Properties
 
         /// <summary>
