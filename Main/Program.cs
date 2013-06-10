@@ -43,29 +43,111 @@ namespace Main
 
             var timer = Stopwatch.StartNew();
 
-            //Para cada arquivo de entrada na pasta Inputs
-            foreach (var inputFile in inputFiles)
+            bool kruskal = false;
+            bool prim = false;
+            int numberOfExecutions = 0;
+
+            foreach (var arg in args)
             {
-                //Inicialização do Grafo
-                var listFromInputFile = Program.ReadInputFile(inputFile);
-                var inputFileName = Directory.GetParent(inputFile).Name + "\\" + Path.GetFileName(inputFile);                
-
-                Console.WriteLine("Processando: {0}\n", inputFileName);
-                
-                //Execução do Kruskal
-
-                foreach (KruskalType krustalType in Enum.GetValues(typeof(KruskalType)) )
+                switch (arg)
                 {
-                    Graph graph = new Graph(listFromInputFile);
-                    timer.Restart();
-                    int result = graph.Kruskal( krustalType );
-                    timer.Stop();
-                    WriteOutputBuffer(inputFileName, "Kruskal" + Enum.GetName(typeof(KruskalType),krustalType) , result, graph.NumberOfVertices, graph.NumberOfEdges, timer.Elapsed.TotalMilliseconds);                     
-                }                
+                    case "-k":
+                        kruskal = true;
+                        break;
+                    case "-p":
+                        prim = true;
+                        break;
+                    case "-pk":
+                        kruskal = prim = true;
+                        break;
+                    default:
+                        int.TryParse(arg, out numberOfExecutions);
+                        break;
+                }
             }
 
-            //Escreve os resultados no arquivo
-            WriteOutputFile();
+           Console.WriteLine(
+@"
+TRABALHO PAA 2013.1 - KRUSKAL & PRIM
+GRUPO: Daniel Marques e Alexandre Villarmosa
+
+COMANDOS:   
+            -p    : Executa o algoritmo de Prim
+            -k    : Executa o algoritmo de Kruskal
+            -pk   : Executa o ambos 
+            <NUM> : Numero de execucoes
+
+INPUTS: As instancias de teste devem se colocadas na pasta Inputs no mesmo diretorio do arquivo executavel.
+
+OUTPUTS: O programa escreve os arquivos de saida na pasta Outputs que fica no mesmo diretorio do arquivo executavel.
+
+NUMERO DE EXECUCOES: {0}
+", numberOfExecutions);
+
+            while (numberOfExecutions > 0)
+	        {
+	            if (kruskal)
+	            {
+		            //KRUSKAL
+                    Console.WriteLine("EXECUTANDO KRUSKAL ...\n");
+
+                    //Para cada arquivo de entrada na pasta Inputs
+                    foreach (var inputFile in inputFiles)
+                    {
+                        //Inicialização do Grafo
+                        var listFromInputFile = Program.ReadInputFile(inputFile);
+                        var inputFileName = Directory.GetParent(inputFile).Name + "\\" + Path.GetFileName(inputFile);                
+
+                        Console.WriteLine("Processando: {0}\n", inputFileName);
+                
+                        //Execução do Kruskal
+
+                        foreach (KruskalType krustalType in Enum.GetValues(typeof(KruskalType)) )
+                        {
+                            Graph graph = new Graph(listFromInputFile);
+                            timer.Restart();
+                            int result = graph.Kruskal( krustalType );
+                            timer.Stop();
+                            WriteOutputBuffer(inputFileName, "Kruskal" + Enum.GetName(typeof(KruskalType),krustalType) , result, graph.NumberOfVertices, graph.NumberOfEdges, timer.Elapsed.TotalMilliseconds);                     
+                        }                
+                    }
+
+                    //Escreve os resultados no arquivo
+                    WriteOutputFile();
+	            }
+            
+                if (prim)
+	            {
+                    //PRIM
+                    Console.WriteLine("EXECUTANDO PRIM ...\n");
+
+                    //Para cada arquivo de entrada na pasta Inputs
+                    foreach (var inputFile in inputFiles)
+                    {
+                        //Inicialização do Grafo
+                        var listFromInputFile = Program.ReadInputFile(inputFile);
+                        var inputFileName = Directory.GetParent(inputFile).Name + "\\" + Path.GetFileName(inputFile);
+
+                        Console.WriteLine("Processando: {0}\n", inputFileName);
+
+                        //Execução do Prim
+
+                        foreach (PrimType primType in Enum.GetValues(typeof(PrimType)))
+                        {
+                            Graph graph = new Graph(listFromInputFile);
+                            timer.Restart();
+                            int result = graph.Prim(primType);
+                            timer.Stop();
+                            WriteOutputBuffer(inputFileName, "Prim" + Enum.GetName(typeof(PrimType), primType), result, graph.NumberOfVertices, graph.NumberOfEdges, timer.Elapsed.TotalMilliseconds);
+                        }
+                    }
+
+                    //Escreve os resultados no arquivo
+                    WriteOutputFile();		 
+	            }
+
+                numberOfExecutions--;
+	        }
         }
 
         #region Methods

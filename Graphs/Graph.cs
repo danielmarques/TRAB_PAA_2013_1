@@ -344,9 +344,10 @@ namespace Graphs
         /// </summary>
         /// <param name="implementationType">Tipo de implemantação que será usada para executar o algoritmo</param>
         /// <returns></returns>
-        public int Prim(PrimType implementationType, int initialVertex)
+        public int Prim(PrimType implementationType)
         {
             //Declaração de variáveis auxiliares que serão usadas globalmente
+            int initialVertex = 1;
             int minimumSpaningTreeCost = 0;
             Edge edge = new Edge();
 
@@ -354,6 +355,7 @@ namespace Graphs
             switch (implementationType)
             {
                 case PrimType.PQEdge:
+                    //Prim com fila de prioridades sobre as arestas
 
                     //Vetor boolean com n + 1 posições que controla quais vértices já foram explorados. O vetor é inicializado com todas as posições em false.
                     bool[] explored = Enumerable.Repeat(false, numberOfVertices + 1).ToArray();
@@ -416,7 +418,35 @@ namespace Graphs
 
                 case PrimType.PQVertex:
 
-                    //Outra versão do prim
+                    //Prim com fila de prioridades sobre os vértices
+
+                    //Inicializa a distância de todos os vértices em infinito, salvo o primeiro, que é igual a zero.
+                    //Tupla: Item1 - Distância do vértice para o grupo (prioridade no heap); Item2 - Índice do vértice; Item3 - Conteúdo do vértice.
+                    //A lista tem esse formato para que possa se passada como parâmetro para o heap
+                    var initialDistances = Enumerable.Range(1, numberOfVertices).Select(a => new Tuple<int, int, int>(int.MaxValue, a, a)).ToList();
+                    initialDistances[0] = new Tuple<int, int, int>(0, 1, 1);
+
+                    //Cria o heap com as distancias iniciais para os vértices
+                    var distHeap = new Heap<int>(initialDistances);
+
+                    while (distHeap.HeapSize() > 0)
+                    {
+                        var extractedVertex = distHeap.HeapExtractMin();
+
+                        //Incrementa o custa da arvore geradora mínima com o valor mínimo extraido do heap
+                        minimumSpaningTreeCost += extractedVertex.Item1;
+
+                        //Para cada vértice adjacente aquele que foi retirado do heap
+                        foreach (var vertex in adjacencyLists[extractedVertex.Item2])
+                        {
+                            int vertexKey = distHeap.HeapGetKey(vertex.key);
+                            //Verifica se sua distância do grupo dimunuiu
+                            if ((vertexKey > 0) && (vertexKey > vertex.weight))
+                            {
+                                distHeap.HeapChangeKey(vertex.weight, vertex.key);
+                            }
+                        }
+                    }
 
                     break;
               

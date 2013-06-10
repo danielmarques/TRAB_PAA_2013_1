@@ -42,16 +42,10 @@ namespace Sorting
             //Guarda os valores no atributo heapTree para depois ordenar como um heap min
             heapTree = priorityQueue;
 
-            //var heapPosition = Enumerable.Range(1, heapTree.Count).ToDictionary(a => a);
-            heapPosition = new Dictionary<int, int>();            
-
-            ////Inicializa as posições dos elementos do heap (embora a posição zero seja adicionada ela não será usada)
-            ////heapTree.Count é um atributo da classe List que guarda o número de elementos da lista
-            for (int i = 1; i <= heapTree.Count; i++)
-            {
-                heapPosition.Add(i, i);
-            }
-
+            //Inicializa as posições dos elementos do heap
+            //heapTree.Count é um atributo da classe List que guarda o número de elementos da lista
+            heapPosition = Enumerable.Range(0, heapTree.Count ).ToDictionary<int,int>(a => a + 1);
+            
             //Executa o heapfyDownMin para cada elemento a partir da metade da lista até o primeiro
             //Cria o heap em O(n)
             //heapTree.Count é um atributo da classe List que guarda o número de elementos da lista
@@ -230,28 +224,40 @@ namespace Sorting
         /// <param name="elementIndex">Índice (ou valor) do elemento.</param>
         public void HeapChangeKey(int newKeyValue, int elementIndex)
         {
-            //Guarda a chave (prioridade) antiga do elemento
-            var oldKey = heapTree[heapPosition[elementIndex]].Item1;
-            //Altera a prioridade do elemento (e mantem o restante do conteúdo do elemento)
-            heapTree[heapPosition[elementIndex]] = new Tuple<int, int, TValue>(newKeyValue, heapTree[heapPosition[elementIndex]].Item2, heapTree[heapPosition[elementIndex]].Item3);
+            //Antes de tentar alterar o elemento verifica se o mesmo realmente existe.
+            if (heapPosition.ContainsKey(elementIndex))
+            {
+                //Guarda a chave (prioridade) antiga do elemento
+                var oldKey = heapTree[heapPosition[elementIndex]].Item1;
+                //Altera a prioridade do elemento (e mantem o restante do conteúdo do elemento)
+                heapTree[heapPosition[elementIndex]] = new Tuple<int, int, TValue>(newKeyValue, heapTree[heapPosition[elementIndex]].Item2, heapTree[heapPosition[elementIndex]].Item3);
 
-            //Restaura o Heap
-            if (newKeyValue > oldKey)
-                HeapfyDownMin(heapPosition[elementIndex]);
+                //Restaura o Heap
+                if (newKeyValue > oldKey)
+                    HeapfyDownMin(heapPosition[elementIndex]);
 
-            else if (newKeyValue < oldKey)
-                HeapfyUpMin(heapPosition[elementIndex]);
+                else if (newKeyValue < oldKey)
+                    HeapfyUpMin(heapPosition[elementIndex]);   
+            }
         }
 
         /// <summary>
         /// Retorna o valor da chave (prioridade) de um elemento do heap.
+        /// Se não encontrar o elemento retorna uma valor negativo.
         /// </summary>
         /// <param name="elementIndex">Índice (ou valor) do elemento.</param>
         public int HeapGetKey(int elementIndex)
         {
-            //Apenas retorna a chave (prioridade) do elemento (item1 da tupla)
-            //A posição do elemento na árvore heap está armazenada no atributo heapPosition. O heapPosition está organizado pelo índice (ou valor) dos elemento.
-            return heapTree[heapPosition[elementIndex]].Item1;
+            if (heapPosition.ContainsKey(elementIndex))
+            {
+                //Apenas retorna a chave (prioridade) do elemento (item1 da tupla)
+                //A posição do elemento na árvore heap está armazenada no atributo heapPosition. O heapPosition está organizado pelo índice (ou valor) dos elemento.
+                return heapTree[heapPosition[elementIndex]].Item1;
+            }
+
+            //Se não encontrar o elemento retorna uma valor negativo.
+            return -1;
+
         }
 
         /// <summary>
