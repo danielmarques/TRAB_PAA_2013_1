@@ -147,6 +147,7 @@ NUMERO DE EXECUCOES: {0}
 	            }
 
                 numberOfExecutions--;
+                Console.WriteLine("EXECUCOES RESTANTES {0}\n", numberOfExecutions);
 	        }
         }
 
