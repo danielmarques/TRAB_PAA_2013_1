@@ -45,7 +45,9 @@ namespace Main
 
             bool kruskal = false;
             bool prim = false;
+            bool aleatory = false;
             int numberOfExecutions = 0;
+            int step = 0;
 
             foreach (var arg in args)
             {
@@ -59,6 +61,9 @@ namespace Main
                         break;
                     case "-pk":
                         kruskal = prim = true;
+                        break;
+                    case "-r":
+                        aleatory = true;
                         break;
                     default:
                         int.TryParse(arg, out numberOfExecutions);
@@ -75,6 +80,7 @@ COMANDOS:
             -p    : Executa o algoritmo de Prim
             -k    : Executa o algoritmo de Kruskal
             -pk   : Executa o ambos 
+            -r    : Aleatorizar grafos durante a execucao
             <NUM> : Numero de execucoes
 
 INPUTS: As instancias de teste devem se colocadas na pasta Inputs no mesmo diretorio do arquivo executavel.
@@ -83,6 +89,17 @@ OUTPUTS: O programa escreve os arquivos de saida na pasta Outputs que fica no me
 
 NUMERO DE EXECUCOES: {0}
 ", numberOfExecutions);
+
+            if (numberOfExecutions > 0)
+            {
+                step = (int) Math.Ceiling( 80.0 / numberOfExecutions);
+            }
+
+            if (aleatory)
+            {
+                Console.WriteLine("AS ENTRADAS SERAO ALEATORIZADAS\n");
+                outputPath = outputPath + "_ALTR";
+            }
 
             while (numberOfExecutions > 0)
 	        {
@@ -104,7 +121,17 @@ NUMERO DE EXECUCOES: {0}
 
                         foreach (KruskalType krustalType in Enum.GetValues(typeof(KruskalType)) )
                         {
-                            Graph graph = new Graph(listFromInputFile);
+                            Graph graph;
+
+                            if (aleatory)
+                            {
+                                graph = new Graph(listFromInputFile, 10 + step*numberOfExecutions);
+                            }
+                            else
+                            {
+                                graph = new Graph(listFromInputFile);
+                            }
+
                             timer.Restart();
                             int result = graph.Kruskal( krustalType );
                             timer.Stop();
@@ -134,7 +161,17 @@ NUMERO DE EXECUCOES: {0}
 
                         foreach (PrimType primType in Enum.GetValues(typeof(PrimType)))
                         {
-                            Graph graph = new Graph(listFromInputFile);
+                            Graph graph;
+
+                            if (aleatory)
+                            {
+                                graph = new Graph(listFromInputFile, 10 + step*numberOfExecutions);
+                            }
+                            else
+                            {
+                                graph = new Graph(listFromInputFile);
+                            }
+
                             timer.Restart();
                             int result = graph.Prim(primType);
                             timer.Stop();
@@ -211,6 +248,9 @@ NUMERO DE EXECUCOES: {0}
             
             sr.Write(outputBuffer);
             sr.Close();
+
+            outputBuffer.Clear();
+            outputBuffer = new StringBuilder("Arquivo de Entrada;Algoritmo;Custo Total AGM;Número de Vértices;Número de Arestas;Tempo de Execução (milisegundos)\n");
         }
 
         #endregion
